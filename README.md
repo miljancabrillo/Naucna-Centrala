@@ -1,2 +1,1 @@
 # Naucna-Centrala
-aa
