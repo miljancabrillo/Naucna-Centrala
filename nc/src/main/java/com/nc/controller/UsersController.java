@@ -47,7 +47,7 @@ public class UsersController {
 	@PostMapping("/reviewers")
 	public ResponseEntity<List<UserDetailsDTO>> getReviewers(){
 				
-		List<UserDetails> reviewers = udRepository.findByNameContainingIgnoreCase("rev");
+		List<UserDetails> reviewers = udRepository.findByNameContainingIgnoreCase("re");
 		List<UserDetailsDTO> reviewersDTO = new ArrayList<>();
 		
 		for (UserDetails reviewer : reviewers) {
