@@ -1,0 +1,16 @@
+<div class="container">
+    <div class="row">
+        <div class="col-4 pt-5">
+            <h5>Registration tasks:</h5>
+            <div class="list-group border rounded w-100" style="max-height: 150px; overflow-y:  scroll;">
+                <div class="list-group-item" *ngFor="let task of tasks" style="display: block">
+                      <label class="form-check-label">{{task.name}}</label>
+                      <button class="btn btn-link mb-1 ml-5" (click)="openTask(task.taskKey, task.taskId)">Open</button>
+                </div>
+              </div>
+        </div>
+        <div class="col-8 py-5" *ngIf="currentTask != 'none'">
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+</div>
