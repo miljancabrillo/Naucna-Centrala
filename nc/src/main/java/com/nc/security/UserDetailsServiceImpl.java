@@ -30,22 +30,27 @@ public class UserDetailsServiceImpl implements UserDetailsService  {
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		
-		if(!Pattern.matches("[a-zA-Z0-9.,?]*", username)) {
+		com.nc.model.UserDetails userDetails = repository.findUserDetailsByUsername(username);
+		
+		if(userDetails == null) {
 			throw new UsernameNotFoundException("Username: " + username + " not found");
 		}
 		
-		com.nc.model.UserDetails userDetails = repository.findUserDetailsByUsername(username);
-		
 		List<Group> groups = identityService.createGroupQuery().groupMember(userDetails.getUsername()).list();
 		
-		// Remember that Spring needs roles to be in this format: "ROLE_" + userRole (i.e. "ROLE_ADMIN")
-		// So, we need to set it to that format, so we can verify and compare roles (i.e. hasRole("ADMIN")).
 		List<GrantedAuthority> grantedAuthorities = new ArrayList<GrantedAuthority>();
 		
-		for(Group group : groups) {
-			SimpleGrantedAuthority sga = new SimpleGrantedAuthority("ROLE_"+group.getId());
-			grantedAuthorities.add(sga);
+		if(groups!=null) {
+			// Remember that Spring needs roles to be in this format: "ROLE_" + userRole (i.e. "ROLE_ADMIN")
+			// So, we need to set it to that format, so we can verify and compare roles (i.e. hasRole("ADMIN")).
+			
+			
+			for(Group group : groups) {
+				SimpleGrantedAuthority sga = new SimpleGrantedAuthority("ROLE_"+group.getId());
+				grantedAuthorities.add(sga);
+			}
 		}
+		
 								
 		// The "User" class is provided by Spring and represents a model class for user to be returned by UserDetailsService
 		// And used by auth manager to verify and check user authentication.

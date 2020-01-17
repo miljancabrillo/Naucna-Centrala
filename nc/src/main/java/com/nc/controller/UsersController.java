@@ -4,20 +4,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.camunda.bpm.engine.IdentityService;
+import org.camunda.bpm.engine.identity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.nc.dto.UserDetailsDTO;
+import com.nc.model.ScientificArea;
 import com.nc.model.UserDetails;
 import com.nc.repository.UserDetailsRepository;
 
 @RestController
 @RequestMapping("/users")
+@SuppressWarnings("unchecked")
 public class UsersController {
 
 	@Autowired
@@ -28,34 +32,29 @@ public class UsersController {
 	
 	@GetMapping("/editors")
 	public ResponseEntity<List<UserDetailsDTO>> getEditors(){
-		List<UserDetails> users = udRepository.findAll();
-		List<UserDetailsDTO> list = new ArrayList<>();
 
-		for(UserDetails user : users) {
-			list.add(new UserDetailsDTO(user));
+		List<UserDetails> editors = udRepository.findByNameContainingIgnoreCase("edi");
+		List<UserDetailsDTO> editorsDTO = new ArrayList<>();
+		
+		for (UserDetails editor : editors) {
+			editorsDTO.add(new UserDetailsDTO(editor));
 		}
 		
-		return new ResponseEntity<>(list, HttpStatus.OK);
+		return new ResponseEntity<>(editorsDTO, HttpStatus.OK);
 
 	}
 	
-	@GetMapping("/reviewers")
+	@PostMapping("/reviewers")
 	public ResponseEntity<List<UserDetailsDTO>> getReviewers(){
+				
+		List<UserDetails> reviewers = udRepository.findByNameContainingIgnoreCase("rev");
+		List<UserDetailsDTO> reviewersDTO = new ArrayList<>();
 		
-		List<UserDetails> users = udRepository.findAll();
-		List<UserDetailsDTO> list = new ArrayList<>();
-
-		for(UserDetails user : users) {
-			list.add(new UserDetailsDTO(user));
+		for (UserDetails reviewer : reviewers) {
+			reviewersDTO.add(new UserDetailsDTO(reviewer));
 		}
 		
-		return new ResponseEntity<>(list, HttpStatus.OK);
-		
-	}
-	
-	@GetMapping("/test")
-	public ResponseEntity<String> tesst(){
-	 return new ResponseEntity<>(new BCryptPasswordEncoder().encode("admin"), HttpStatus.OK);
+		return new ResponseEntity<>(reviewersDTO, HttpStatus.OK);
 		
 	}
 	

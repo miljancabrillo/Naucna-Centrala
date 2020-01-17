@@ -1,6 +1,7 @@
 package com.nc.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -39,6 +40,7 @@ public class UserDetails implements Serializable{
 	private String country;
 	private String title;
 	private String email;
+	private boolean isAssignedAsEditor = false;
 	
 	@ManyToMany
 	private List<ScientificArea> scientificAreas;
@@ -55,5 +57,18 @@ public class UserDetails implements Serializable{
 		this.email = rdto.getEmail();
 		this.scientificAreas = rdto.getScientificAreas();
 	}
-		
+
+	@Override
+	public boolean equals(Object obj) {
+		if(this.id != ((UserDetails)obj).getId()) return false;
+		return true;
+	}
+	
+	public boolean isReviewerOf(ArrayList<ScientificArea> scientificAreas) {
+		for (ScientificArea scientificArea : scientificAreas) {
+			if(this.scientificAreas.contains(scientificArea)) return true;
+		}
+		return false;
+	}
+	
 }

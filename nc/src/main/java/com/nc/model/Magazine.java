@@ -49,4 +49,11 @@ public class Magazine {
 		this.scientificAreaEditorMap.put(area, editor);
 	}
 	
+	public boolean isEditor(UserDetails editor) {
+		if(this.cheifEditor.equals(editor)) return true;
+		if(this.scientificAreaEditorMap.values().contains(editor)) return true;
+		return false;
+	}
+
+	
 }

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nc.dto.MagazineDTO;
 import com.nc.model.Magazine;
+import com.nc.model.UserDetails;
 import com.nc.repository.MagazineRepository;
 import com.nc.repository.UserDetailsRepository;
 
@@ -36,7 +37,13 @@ public class AssignChiefEditorService implements JavaDelegate {
 		magazine.setISSN(mdto.getISSN());
 		magazine.setOpenAccess(mdto.isOpenAccess());
 		magazine.setScientificAreas(mdto.getScientificAreas());
-		magazine.setCheifEditor(udRepository.findUserDetailsByUsername((String) execution.getVariable("initiatorId")));
+		
+		UserDetails chiefEditor = udRepository.findUserDetailsByUsername((String) execution.getVariable("initiatorId"));
+		chiefEditor.setAssignedAsEditor(true);
+		
+		magazine.setCheifEditor(chiefEditor);
+		
+		udRepository.save(chiefEditor);
 		
 		magazine = magazineRepository.save(magazine);
 		
