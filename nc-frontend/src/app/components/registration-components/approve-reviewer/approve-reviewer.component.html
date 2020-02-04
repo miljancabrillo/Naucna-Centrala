@@ -1,0 +1,22 @@
+<form class="pt-4 mt-1 ml-3">
+    
+    <div class="form-group row">
+        <div class="col-8">
+            <label>Approve {{registrationData.name}} {{registrationData.surname}} as reviwer?</label>
+        </div>
+        <div class="col-4">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="openAcces" [(ngModel)]="reviewerRequestSatus" [ngModelOptions]="{standalone: true}"> 
+            </div>        
+        </div>
+    </div>
+    
+    
+    <div class="form-group row">
+        <div class="col-10">
+        </div>
+        <div class="col-2">
+            <button type="button" class="btn btn-secondary" (click)="completeClick()">Complete</button>
+        </div>
+    </div>
+</form>

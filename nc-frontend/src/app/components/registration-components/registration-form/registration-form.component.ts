@@ -1,7 +1,6 @@
 import { Component, OnInit, ComponentRef } from '@angular/core';
 import { RegistrationData } from 'src/app/model/RegistrationData';
 import { ScientificAreaService } from 'src/app/services/ScientificAreaService';
-import { RegistrationComponent } from '../registration/registration.component';
 import * as $ from 'jquery';
 import { ScientificArea } from 'src/app/model/ScientificArea';
 import { RegistrationService } from 'src/app/services/RegistrationService';

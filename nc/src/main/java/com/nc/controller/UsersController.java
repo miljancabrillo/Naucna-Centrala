@@ -19,9 +19,9 @@ import com.nc.model.ScientificArea;
 import com.nc.model.UserDetails;
 import com.nc.repository.UserDetailsRepository;
 
+@SuppressWarnings("unchecked")
 @RestController
 @RequestMapping("/users")
-@SuppressWarnings("unchecked")
 public class UsersController {
 
 	@Autowired
@@ -33,10 +33,18 @@ public class UsersController {
 	@GetMapping("/editors")
 	public ResponseEntity<List<UserDetailsDTO>> getEditors(){
 
-		List<UserDetails> editors = udRepository.findByNameContainingIgnoreCase("edi");
+		List<User> editors = (List<User>) identityService.createUserQuery().memberOfGroup("editor").list();
+		
+		ArrayList<String> usernames = new ArrayList<>();
+		
+		for (User editor : editors) {
+			usernames.add(editor.getId());
+		}
+		
+		List<UserDetails> editorsDetails = udRepository.findByUsernames(usernames);
 		List<UserDetailsDTO> editorsDTO = new ArrayList<>();
 		
-		for (UserDetails editor : editors) {
+		for (UserDetails editor : editorsDetails) {
 			editorsDTO.add(new UserDetailsDTO(editor));
 		}
 		
@@ -47,14 +55,23 @@ public class UsersController {
 	@PostMapping("/reviewers")
 	public ResponseEntity<List<UserDetailsDTO>> getReviewers(){
 				
-		List<UserDetails> reviewers = udRepository.findByNameContainingIgnoreCase("re");
+		List<User> reviewers = (List<User>) identityService.createUserQuery().memberOfGroup("reviewer").list();
+		
+		ArrayList<String> usernames = new ArrayList<>();
+		
+		for (User reviewer : reviewers) {
+			usernames.add(reviewer.getId());
+		}
+		
+		List<UserDetails> reviewersDetails = udRepository.findByUsernames(usernames);
 		List<UserDetailsDTO> reviewersDTO = new ArrayList<>();
 		
-		for (UserDetails reviewer : reviewers) {
+		for (UserDetails reviewer : reviewersDetails) {
 			reviewersDTO.add(new UserDetailsDTO(reviewer));
 		}
 		
 		return new ResponseEntity<>(reviewersDTO, HttpStatus.OK);
+
 		
 	}
 	

@@ -42,9 +42,13 @@
             <label>Comment:</label>
         </div>
         <div class="col-10">
-            <textarea class="form-control form-control-sm" [(ngModel)]="magazine.adminMessage" placeholder="This comment will be visible to the author is you resend magazine data to editor!"></textarea>
+            <textarea class="form-control form-control-sm" [(ngModel)]="magazine.adminMessage" placeholder="This comment will be visible to the author is you resend magazine data to editor!" [ngModelOptions]="{standalone: true}"></textarea>
         </div>
     </div>
+    <div>
+            <label class="text-danger">{{errorMessage}}</label>
+    </div>
+
 
     <div class="form-group row">
         <div class="col-4">

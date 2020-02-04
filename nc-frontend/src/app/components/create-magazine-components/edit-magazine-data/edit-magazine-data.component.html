@@ -32,7 +32,7 @@
             <label>Comment:</label>
         </div>
         <div class="col-10">
-            <textarea class="form-control form-control-sm" disabled [(ngModel)]="magazine.adminMessage" placeholder="This comment will be visible to the author is you resend magazine data to editor!"></textarea>
+            <textarea class="form-control form-control-sm" disabled [(ngModel)]="magazine.adminMessage" [ngModelOptions]="{standalone : true}"></textarea>
         </div>
     </div>
 

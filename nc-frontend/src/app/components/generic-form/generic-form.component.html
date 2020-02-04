@@ -1,0 +1,35 @@
+<form class="pt-4 mt-1 ml-3">
+    <div class="form-group row" *ngFor="let field of form.fields">
+        <div class="col-4">
+            <label>{{field.label}}</label>
+        </div>
+        <div class="col-8" *ngIf="field.type == 'enum'">
+            <select class="form-control" [(ngModel)]="field.value" [ngModelOptions]="{standalone: true}">
+                <option *ngFor="let entry of field.selectValues | keyvalue" [value]="entry.key">{{entry.value}}</option>
+            </select>
+        </div>
+        <div class="col-8" *ngIf="field.type == 'string'">
+            <input type="text" class="form-control" [(ngModel)]="field.value" [ngModelOptions]="{standalone: true}" [readonly]="field.readonly">
+        </div>
+        <div class="col-8" *ngIf="field.type == 'long'">
+            <input type="number" class="form-control" [(ngModel)]="field.value" [ngModelOptions]="{standalone: true}" [readonly]="field.readonly">
+        </div>
+        <div class="col-8" *ngIf="field.type == 'file'">
+            <input  type="file" accept="application/pdf" (change)="fileChoserListener($event.target.files, field)">
+        </div>
+        <div class="col-8" *ngIf="field.type == 'email'">
+            <input  type="email" class="form-control" [(ngModel)]="field.value" [ngModelOptions]="{standalone: true}" [readonly]="field.readonly">
+        </div>
+        <div class="col-8" class="pl-2" *ngIf="field.type == 'boolean'">
+            <input  type="checkbox" class="form-check-input ml-2" [(ngModel)]="field.value" [ngModelOptions]="{standalone: true}" [readonly]="field.readonly">
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-10">
+            <p class="text-danger">{{errorMessage}}</p>
+        </div>
+        <div class="col-2">
+            <button type="button" class="btn btn-secondary" (click)="completeClick()">Complete</button>
+        </div>
+    </div>
+</form>

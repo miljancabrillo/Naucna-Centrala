@@ -51,7 +51,7 @@ export class AddReviewersAndEditorsComponent implements OnInit {
       this.errorMessage = "Select at least two reviewers!"
       return;
     }else{
-      this.errorMessage = "Select at least two reviewers!"
+      this.errorMessage = ""
     }
 
     this.magazine.scientificAreaEditorList = new Array();

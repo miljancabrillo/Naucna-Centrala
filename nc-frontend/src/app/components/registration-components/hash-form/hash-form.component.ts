@@ -35,6 +35,8 @@ export class HashFormComponent implements OnInit {
     if(this.hashData.hash == ""){
       this.hashData.errorMessage = "Type in hash value!"
       return;
+    }else{
+      this.hashData.errorMessage = ""
     }
 
     this.registrationService.setProcessVariable(new ProcessVariable("hashData", this.hashData)).subscribe(

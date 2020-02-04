@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ProcessVariable } from '../model/ProcessVariable';
 import { Task } from '../model/Task';
+import { Form } from '../model/Form';
 
 @Injectable({
     providedIn: 'root',
@@ -39,6 +40,14 @@ export class TaskService{
 
     getProcessVariable(variable : String){
         return this.http.get<any>('api/tp/getProcessVariable/' + this.currentTaskId + '/' + variable);
+    }
+
+    getForm(){
+        return this.http.get<Form>('api/form/' + this.currentTaskId);
+    }
+
+    postForm(form : Form){
+        return this.http.post('api/form/' + this.currentTaskId, form);
     }
 
     completeTask(){

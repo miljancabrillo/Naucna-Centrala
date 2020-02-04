@@ -46,7 +46,7 @@ public class UserDetails implements Serializable{
 	private List<ScientificArea> scientificAreas;
 	
 	private String password;
-	
+		
 	public UserDetails(RegistrationDTO rdto) {
 		this.username = rdto.getUsername();
 		this.name = rdto.getName();

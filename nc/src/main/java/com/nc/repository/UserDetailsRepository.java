@@ -19,7 +19,10 @@ public interface UserDetailsRepository extends JpaRepository<UserDetails, Long> 
 	public UserDetails findUserDetailsByUsername(String username);
 	
 	public List<UserDetails> findAll();
-
+	
 	List<UserDetails> findByNameContainingIgnoreCase(String name);
+	
+	@Query("select user from UserDetails user where user.username in :usernames")
+	List<UserDetails> findByUsernames(@Param("usernames") ArrayList<String> usernames);
 
 }

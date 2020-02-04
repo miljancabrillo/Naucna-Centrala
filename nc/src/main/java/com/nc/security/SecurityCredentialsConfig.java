@@ -50,6 +50,10 @@ public class SecurityCredentialsConfig extends WebSecurityConfigurerAdapter {
 		    .antMatchers("/api/**").permitAll()
 		    .antMatchers("/lib/**").permitAll()
 		    .antMatchers("/users/**").permitAll()
+		    .antMatchers("/successUrl/*").permitAll()
+		    .antMatchers("/failureUrl/*").permitAll()
+		    .antMatchers("/subSuccess/*").permitAll()
+		    .antMatchers("/subFailure/*").permitAll()
 
 		    .antMatchers("/scinetificAreas").permitAll()
 		    // any other requests must be authenticated

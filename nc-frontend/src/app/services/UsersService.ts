@@ -16,6 +16,6 @@ export class UsersService{
     }
 
     getReviewers(){
-       return this.http.get<User[]>("/api/users/reviewers");
+       return this.http.post<User[]>("/api/users/reviewers",null);
     }
 }

@@ -39,7 +39,9 @@ public class HashMailService implements JavaDelegate {
 		
 		String random = RandomStringUtils.randomAlphanumeric(10);
 		System.out.println(random);
-		sendMail("Verification code: "+random, rdto.getEmail());
+		System.out.println(random);
+		System.out.println(random);
+		//sendMail("Verification code: "+random, rdto.getEmail());
 		
 		execution.setVariable("hashValue", random);
 	}

@@ -14,7 +14,7 @@ export class ReviewMagazineDataAdminComponent implements OnInit {
 
   magazine : Magazine;
   scientificAreas : ScientificArea[];
-  errorMessage : string = "AAAAAAAAAAAAAAA";
+  errorMessage : string = "";
 
   constructor(private scientificAreaService : ScientificAreaService, private taskService : TaskService) { 
     this.magazine = new Magazine();
@@ -35,12 +35,11 @@ export class ReviewMagazineDataAdminComponent implements OnInit {
 
   resendClick(){
 
-    if(this.magazine.adminMessage == ""){
+    if(this.magazine.adminMessage == null ){
       this.errorMessage = "Fill comment field!";
       return;
     }else{
-      this.errorMessage = "Fill comment field!";
-
+      this.errorMessage = "";
     }
 
     this.magazine;

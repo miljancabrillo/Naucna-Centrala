@@ -6,7 +6,7 @@
         </div>
         <div class="col-10">
             <select  class="form-control form-control-sm" [(ngModel)]="selectedEditors[i]" [ngModelOptions]="{standalone: true}">
-                <option  *ngFor="let editor of editors" ngDefaultControl [(ngValue)]="editor">{{editor.name}}" "{{editor.surname}}</option>       
+                <option  *ngFor="let editor of editors" ngDefaultControl [(ngValue)]="editor">{{editor.name}} {{editor.surname}}</option>       
             </select>
         </div>
     </div>

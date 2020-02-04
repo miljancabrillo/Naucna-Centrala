@@ -15,7 +15,7 @@ import { ProcessVariable } from 'src/app/model/ProcessVariable';
 export class MagazineFormComponent implements OnInit {
 
   magazine : Magazine;
-  errorMessage : string = "AAAAAAAAAAAAAAA";
+  errorMessage : string = "";
   scientificAreas : ScientificArea[];
 
   constructor(private scientificAreaService : ScientificAreaService, private taskService : TaskService) { 
