@@ -8,6 +8,11 @@
                 <option *ngFor="let entry of field.selectValues | keyvalue" [value]="entry.key">{{entry.value}}</option>
             </select>
         </div>
+        <div class="col-8" *ngIf="field.type == 'multiselect'">
+            <select multiple class="form-control" [(ngModel)]="field.multiselectValues" [ngModelOptions]="{standalone: true}">
+                <option *ngFor="let entry of field.selectValues | keyvalue" [value]="entry.key">{{entry.value}}</option>
+            </select>
+        </div>
         <div class="col-8" *ngIf="field.type == 'string'">
             <input type="text" class="form-control" [(ngModel)]="field.value" [ngModelOptions]="{standalone: true}" [readonly]="field.readonly">
         </div>
@@ -20,8 +25,14 @@
         <div class="col-8" *ngIf="field.type == 'email'">
             <input  type="email" class="form-control" [(ngModel)]="field.value" [ngModelOptions]="{standalone: true}" [readonly]="field.readonly">
         </div>
+        <div class="col-8" *ngIf="field.type == 'textarea'">
+            <textarea class="form-control" [(ngModel)]="field.value" [ngModelOptions]="{standalone: true}" [readonly]="field.readonly"></textarea>
+        </div>
         <div class="col-8" class="pl-2" *ngIf="field.type == 'boolean'">
             <input  type="checkbox" class="form-check-input ml-2" [(ngModel)]="field.value" [ngModelOptions]="{standalone: true}" [readonly]="field.readonly">
+        </div>
+        <div class="col-8" class="pl-2" *ngIf="field.type == 'downloadBtn'">
+            <a (click)="linkClick(field.value)">{{field.linkText}}</a>
         </div>
     </div>
     <div class="form-group row">

@@ -11,7 +11,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class ScientificAreaEditoPairDTO {
 
-	private long areaId;
+	private String areaId;
 	private String username;
 	
 }

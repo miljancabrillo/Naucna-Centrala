@@ -13,7 +13,7 @@ public interface ScientificAreaRepository extends JpaRepository<ScientificArea, 
 
 	public ScientificArea save(ScientificArea sa);
 	
-	public ScientificArea findOneById(long id);
+	public ScientificArea findOneById(String id);
 	
 	public List<ScientificArea> findAll();
 }

@@ -5,4 +5,6 @@ export class FormField{
 	value : any;
 	selectValues : Map<string,string>;	
 	fileName : string;
+	linkText : string; 
+	multiselectValues : string[];
 }

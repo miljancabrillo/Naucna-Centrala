@@ -1,5 +1,6 @@
 package com.nc.dto;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.camunda.bpm.engine.form.FormField;
@@ -22,6 +23,8 @@ public class FormFieldDTO {
 	private HashMap<String, String> selectValues;
 	private String fileName;
 	private boolean readonly = false;
+	private String linkText;
+	private ArrayList<String> multiselectValues;
 	
 	public FormFieldDTO(FormField field) {
 		

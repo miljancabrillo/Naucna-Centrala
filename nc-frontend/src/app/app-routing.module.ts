@@ -44,7 +44,16 @@ const routes: Route []= [
       {path: 'selectMagazine', component: GenericFormComponent},
       {path: 'inputArticleInformation', component: GenericFormComponent},
       {path: 'inputCoauthorsData', component: GenericFormComponent},
-      {path: 'reviewTitleAbstractAndMainConceptsOfArticle', component: GenericFormComponent}
+      {path: 'reviewTitleAbstractAndMainConceptsOfArticle', component: GenericFormComponent},
+      {path: 'reviewFormattingOfPDFFile', component: GenericFormComponent},
+      {path: 'commentFormattingMistakes', component: GenericFormComponent},
+      {path: 'reviewEditorCommmentAndUploadCorrectedPDF', component: GenericFormComponent},
+      {path: 'selectReviewer', component: GenericFormComponent},
+      {path: 'setReviewDeadline', component: GenericFormComponent},
+      {path: 'reviewArticleAndSubmitRecensions', component: GenericFormComponent},
+      {path: 'selectOneReviewer', component: GenericFormComponent},
+      //{path: 'reviewArticleAndSubmitRecensions', component: GenericFormComponent},
+
     ]
     },
     {path: '**',  redirectTo: 'home'}],

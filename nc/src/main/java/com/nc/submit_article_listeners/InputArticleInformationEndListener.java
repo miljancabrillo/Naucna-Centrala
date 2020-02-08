@@ -15,13 +15,6 @@ public class InputArticleInformationEndListener implements ExecutionListener {
 	public void notify(DelegateExecution delegateExecution) throws Exception {
 		// TODO Auto-generated method stub
 		ArrayList<Coauthor> coauthors = new ArrayList<>();
-		
-		Coauthor c1 = new Coauthor("aa","aa","aa","aa","aa");
-		Coauthor c2 = new Coauthor("bb","bb","bb","bb","bb");
-		
-		coauthors.add(c1);
-		coauthors.add(c2);
-
 		delegateExecution.setVariable("coauthors", coauthors);
 		
 	}

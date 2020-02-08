@@ -2,6 +2,7 @@ package com.nc.model;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -25,20 +26,14 @@ public class ScientificArea implements Serializable{
 	private static final long serialVersionUID = -2250352929537880971L;
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
+	@Column(unique=true,columnDefinition="VARCHAR(64)")
+	private String id;
+	
 	private String name;
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + (int) (id ^ (id >>> 32));
-		return result;
-	}
 	
 	@Override
 	public boolean equals(Object obj) {
-		if (this.id != ((ScientificArea)obj).getId()) return false;
+		if (this.id.equals(((ScientificArea)obj).getId())) return false;
 		return true;
 	}
 

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.camunda.bpm.engine.FormService;
 import org.camunda.bpm.engine.RuntimeService;
@@ -22,6 +24,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
+
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
 
@@ -42,7 +46,7 @@ public class FormsController {
 
 	@SuppressWarnings("unchecked")
 	@GetMapping("/form/{taskId}")
-	public ResponseEntity<FormDTO> getFormFileds(@PathVariable("taskId") String taskId){
+	public ResponseEntity<FormDTO> getFormFileds(@PathVariable("taskId") String taskId) throws IOException{
 		
 		Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
 		TaskFormData tfd = formService.getTaskFormData(taskId);
@@ -62,7 +66,7 @@ public class FormsController {
 			fieldDTO.setType(type);
 			
 			//ubacivanje enum vrijednosti 
-			if(type.equals("enum")) {
+			if(type.equals("enum") || type.equals("multiselect")) {
 				if(field.getProperties().get("selectValues") != null) {
 					HashMap<String, String> selectValues = (HashMap<String, String>) runtimeService.getVariable(task.getProcessInstanceId(), field.getProperties().get("selectValues"));
 					fieldDTO.setSelectValues(selectValues);
@@ -81,6 +85,18 @@ public class FormsController {
 			//ako treba da je polje readonly
 			if(field.getProperties().containsKey("readonly")) {
 				fieldDTO.setReadonly(true);
+			}
+			
+			//ako je tip polja link za download pdfa
+			if(type.equals  ("downloadBtn")) {
+				fieldDTO.setLinkText(field.getProperties().get("downloadBtnDescription"));
+				String fileName = (String) runtimeService.getVariable(task.getProcessInstanceId(), "fileName");
+				
+				File file = new File("pdf/"+fileName);
+				byte[] encoded = Base64.encodeBase64(FileUtils.readFileToByteArray(file));
+				String startString = "data:application/pdf;base64,";
+				String dataStrign = new String(encoded, StandardCharsets.US_ASCII);
+				fieldDTO.setValue(startString + StringUtils.remove(dataStrign, "data/application/pdf/base64/"));	
 			}
 			
 			formFieldsDTO.add(fieldDTO);
@@ -108,10 +124,12 @@ public class FormsController {
 			//validacija po constraintovima
 			List<FormFieldValidationConstraint> constraints = field.getValidationConstraints();
 			for (FormFieldValidationConstraint constraint : constraints) {
-				if(constraint.getName().equals("required")) {
+				if(constraint.getName().equals("required") && !fieldDTO.getType().equals("multiselect")) {
 					if(fieldDTO.getValue() == null || fieldDTO.getValue().equals("")) {
 						return new ResponseEntity<>(fieldDTO.getLabel() + " field is mandatory!",HttpStatus.BAD_REQUEST);
 					}
+				}else if(constraint.getName().equals("required") && fieldDTO.getType().equals("multiselect")) {
+					if(fieldDTO.getMultiselectValues() == null)	return new ResponseEntity<>(fieldDTO.getLabel() + " field is mandatory!",HttpStatus.BAD_REQUEST);
 				}
 			}
 			
@@ -123,6 +141,12 @@ public class FormsController {
 					// TODO: handle exception
 					return new ResponseEntity<>(fieldDTO.getLabel() + " field must be number!",HttpStatus.BAD_REQUEST);
 				}
+			}
+			
+			if(fieldDTO.getType().equals("multiselect")){
+				int selectConstraint = Integer.parseInt(field.getProperties().get("minSelected"));
+				if(selectConstraint > fieldDTO.getMultiselectValues().size()) return new ResponseEntity<>("Select at least " + selectConstraint + " elements in multiselect!"
+						,HttpStatus.BAD_REQUEST);				
 			}
 			
 		}
@@ -142,8 +166,10 @@ public class FormsController {
 				fop.flush();
 				fop.close();
 				
-				runtimeService.setVariable(task.getProcessInstanceId(), fieldDTO.getId(), fieldDTO.getFileName());
-			}else {
+				runtimeService.setVariable(task.getProcessInstanceId(), "fileName", fieldDTO.getFileName());
+			}else if(fieldDTO.getType().equals("multiselect")) {
+				runtimeService.setVariable(task.getProcessInstanceId(), fieldDTO.getId(), fieldDTO.getMultiselectValues());
+			}else if(!fieldDTO.getType().equals("downloadBtn")) {
 				runtimeService.setVariable(task.getProcessInstanceId(), fieldDTO.getId(), fieldDTO.getValue());
 			}
 		}
