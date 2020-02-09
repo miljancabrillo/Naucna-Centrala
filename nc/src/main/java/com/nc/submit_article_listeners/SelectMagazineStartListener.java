@@ -1,5 +1,6 @@
 package com.nc.submit_article_listeners;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -29,6 +30,10 @@ public class SelectMagazineStartListener implements TaskListener {
 		}
 	
 		delegateTask.getExecution().setVariable("magazinesHashMap", magaiznesMap);
+		
+		delegateTask.getExecution().setVariable("reviews", new ArrayList<>());
+		delegateTask.getExecution().setVariable("reviewsForAuthor", new ArrayList<>());
+
 	}
 
 }

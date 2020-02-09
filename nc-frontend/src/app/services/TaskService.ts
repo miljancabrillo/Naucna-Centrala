@@ -50,6 +50,10 @@ export class TaskService{
         return this.http.post('api/form/' + this.currentTaskId, form);
     }
 
+    filterForm(form : Form){
+        return this.http.post<Form>('api/form/filterReviewers/' + this.currentTaskId, form);
+    }
+
     completeTask(){
         return this.http.post('api/tp/completeTask/' + this.currentTaskId, null)
     }

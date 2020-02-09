@@ -22,7 +22,8 @@ public class SaveReviewService implements JavaDelegate {
 
 		@SuppressWarnings("unchecked")
 		ArrayList<Review> reviews = (ArrayList<Review>) execution.getVariable("reviews");
-		
+		ArrayList<Review> reviewsForAuthor = (ArrayList<Review>) execution.getVariable("reviewsForAuthor");
+	
 		if(reviews == null) {
 			reviews = new ArrayList<>();
 		}
@@ -39,10 +40,22 @@ public class SaveReviewService implements JavaDelegate {
 		rev.setCommentForEditor(comment);
 		rev.setStatus(status);
 		rev.setFileName(fileName);
+		rev.setForEditor(true);
+		
+		Review rev2 = new Review();
+		rev2.setReviewer(udRepository.findUserDetailsByUsername(reviewerUsername));
+		rev2.setReview(review);
+		rev2.setCommentForEditor(comment);
+		rev2.setStatus(status);
+		rev2.setFileName(fileName);
+		rev2.setForEditor(false);
 		
 		reviews.add(rev);
+		reviewsForAuthor.add(rev2);
 		
 		execution.setVariable("reviews", reviews);
+		execution.setVariable("reviewsForAuthor", reviewsForAuthor);
+
 
 	}
 

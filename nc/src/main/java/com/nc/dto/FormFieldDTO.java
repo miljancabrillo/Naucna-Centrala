@@ -5,6 +5,8 @@ import java.util.HashMap;
 
 import org.camunda.bpm.engine.form.FormField;
 
+import com.nc.model.Review;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,6 +27,9 @@ public class FormFieldDTO {
 	private boolean readonly = false;
 	private String linkText;
 	private ArrayList<String> multiselectValues;
+	private ArrayList<Review> reviews;
+	private String linkUrl;
+	
 	
 	public FormFieldDTO(FormField field) {
 		
@@ -33,4 +38,11 @@ public class FormFieldDTO {
 		this.label = field.getLabel();
 				
 	}
+	
+	public void changeReviewsToEditors() {
+		for (Review review : reviews) {
+			review.setForEditor(true);
+		}
+	}
+
 }

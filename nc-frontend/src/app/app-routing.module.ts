@@ -52,7 +52,11 @@ const routes: Route []= [
       {path: 'setReviewDeadline', component: GenericFormComponent},
       {path: 'reviewArticleAndSubmitRecensions', component: GenericFormComponent},
       {path: 'selectOneReviewer', component: GenericFormComponent},
-      //{path: 'reviewArticleAndSubmitRecensions', component: GenericFormComponent},
+      {path: 'reviewRecensions', component: GenericFormComponent},
+      {path: 'recensionsMinorCorrection', component: GenericFormComponent},
+      {path: 'reviewEditedArticle', component: GenericFormComponent},
+      {path: 'majorCorrection', component: GenericFormComponent},
+      {path: 'Task_1ha7bnj', component: GenericFormComponent},
 
     ]
     },

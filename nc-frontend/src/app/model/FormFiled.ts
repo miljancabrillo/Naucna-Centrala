@@ -1,3 +1,5 @@
+import { Review } from './Review';
+
 export class FormField{
     id : string;
 	type : string;
@@ -7,4 +9,6 @@ export class FormField{
 	fileName : string;
 	linkText : string; 
 	multiselectValues : string[];
+	reviews : Review[];
+	linkUrl : string;
 }

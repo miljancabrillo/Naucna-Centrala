@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_1luvfbn" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="3.4.1">
+  <bpmn:process id="membership_payment_process" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>SequenceFlow_09wr7nq</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_09wr7nq" sourceRef="StartEvent_1" targetRef="Task_138hwbo" />
+    <bpmn:serviceTask id="Task_138hwbo" name="Get payment url" camunda:class="com.nc.submit_article_services.SubscriptionUrlService">
+      <bpmn:incoming>SequenceFlow_09wr7nq</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1psap8d</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="SequenceFlow_1psap8d" sourceRef="Task_138hwbo" targetRef="Task_1ha7bnj" />
+    <bpmn:userTask id="Task_1ha7bnj" name="Input payment data" camunda:assignee="${InitiatorId}">
+      <bpmn:extensionElements>
+        <camunda:taskListener class="com.nc.submit_article_listeners.InputPaymentDataCreateListener" event="create" />
+        <camunda:formData>
+          <camunda:formField id="link" type="string">
+            <camunda:properties>
+              <camunda:property id="type" value="link" />
+              <camunda:property id="linkText" value="Follow this link to pay for subscription!" />
+              <camunda:property id="linkValue" value="url" />
+            </camunda:properties>
+          </camunda:formField>
+        </camunda:formData>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_1psap8d</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0kptrkk</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:endEvent id="EndEvent_06bakfx">
+      <bpmn:incoming>SequenceFlow_1g8cnbi</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_0kptrkk" sourceRef="Task_1ha7bnj" targetRef="Task_00kdaba" />
+    <bpmn:sequenceFlow id="SequenceFlow_1g8cnbi" sourceRef="Task_00kdaba" targetRef="EndEvent_06bakfx" />
+    <bpmn:serviceTask id="Task_00kdaba" name="Save membership data" camunda:class="com.nc.submit_article_services.SaveMembershipService">
+      <bpmn:incoming>SequenceFlow_0kptrkk</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1g8cnbi</bpmn:outgoing>
+    </bpmn:serviceTask>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="membership_payment_process">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="179" y="79" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_09wr7nq_di" bpmnElement="SequenceFlow_09wr7nq">
+        <di:waypoint x="215" y="97" />
+        <di:waypoint x="270" y="97" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ServiceTask_1i6xj3u_di" bpmnElement="Task_138hwbo">
+        <dc:Bounds x="270" y="57" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1psap8d_di" bpmnElement="SequenceFlow_1psap8d">
+        <di:waypoint x="370" y="97" />
+        <di:waypoint x="430" y="97" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="UserTask_18f7jtm_di" bpmnElement="Task_1ha7bnj">
+        <dc:Bounds x="430" y="57" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_06bakfx_di" bpmnElement="EndEvent_06bakfx">
+        <dc:Bounds x="752" y="79" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0kptrkk_di" bpmnElement="SequenceFlow_0kptrkk">
+        <di:waypoint x="530" y="97" />
+        <di:waypoint x="590" y="97" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1g8cnbi_di" bpmnElement="SequenceFlow_1g8cnbi">
+        <di:waypoint x="690" y="97" />
+        <di:waypoint x="752" y="97" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ServiceTask_14km7fn_di" bpmnElement="Task_00kdaba">
+        <dc:Bounds x="590" y="57" width="100" height="80" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

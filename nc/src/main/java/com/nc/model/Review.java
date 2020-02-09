@@ -7,6 +7,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,6 +30,7 @@ public class Review implements Serializable{
 	@GeneratedValue
 	private long id;
 	
+	@JsonIgnore
 	@ManyToOne
 	UserDetails reviewer;
 	
@@ -36,6 +39,9 @@ public class Review implements Serializable{
 	private String commentForEditor;
 	
 	private String fileName;
+	
+	private String authorReply;
+	private boolean forEditor;
 	
 	
 }

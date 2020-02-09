@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.websocket.server.PathParam;
+
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
@@ -31,6 +33,9 @@ import sun.misc.BASE64Encoder;
 
 import com.nc.dto.FormDTO;
 import com.nc.dto.FormFieldDTO;
+import com.nc.model.Review;
+import com.nc.model.UserDetails;
+import com.nc.repository.UserDetailsRepository;
 
 @RestController
 public class FormsController {
@@ -43,6 +48,9 @@ public class FormsController {
 	
 	@Autowired
 	FormService formService;
+	
+	@Autowired
+	UserDetailsRepository udRepository;
 
 	@SuppressWarnings("unchecked")
 	@GetMapping("/form/{taskId}")
@@ -65,6 +73,7 @@ public class FormsController {
 			}
 			fieldDTO.setType(type);
 			
+		
 			//ubacivanje enum vrijednosti 
 			if(type.equals("enum") || type.equals("multiselect")) {
 				if(field.getProperties().get("selectValues") != null) {
@@ -99,6 +108,16 @@ public class FormsController {
 				fieldDTO.setValue(startString + StringUtils.remove(dataStrign, "data/application/pdf/base64/"));	
 			}
 			
+			if(type.equals("reviews")) {
+				ArrayList<Review> reviews = (ArrayList<Review>) runtimeService.getVariable(task.getProcessInstanceId(), field.getProperties().get("reviewsList"));
+				fieldDTO.setReviews(reviews);
+			}
+			
+			if(type.equals("link")) {
+				fieldDTO.setLinkText(field.getProperties().get("linkText"));
+				fieldDTO.setLinkUrl(runtimeService.getVariable(task.getProcessInstanceId(), field.getProperties().get("linkValue")).toString());
+			}
+			
 			formFieldsDTO.add(fieldDTO);
 		}
 		
@@ -120,7 +139,7 @@ public class FormsController {
 		//provjera ispravnosti polja
 		for (FormField field : formFields) {
 			FormFieldDTO fieldDTO = formDTO.getFieldById(field.getId());
-			
+
 			//validacija po constraintovima
 			List<FormFieldValidationConstraint> constraints = field.getValidationConstraints();
 			for (FormFieldValidationConstraint constraint : constraints) {
@@ -149,6 +168,13 @@ public class FormsController {
 						,HttpStatus.BAD_REQUEST);				
 			}
 			
+			if(fieldDTO.getType().equals("reviews")) {
+				if(fieldDTO.getReviews().get(0).isForEditor() == true) continue;
+				for (Review review : fieldDTO.getReviews()) {
+					if(review.getAuthorReply()==null || review.getAuthorReply().equals("")) return new ResponseEntity<>("You must reply to all reviews!",HttpStatus.BAD_REQUEST);				
+				}
+			}
+			
 		}
 		
 		//ako su sva polja uredu ubacujem ih u varijable ako je fajl samo ime ubacim
@@ -169,7 +195,12 @@ public class FormsController {
 				runtimeService.setVariable(task.getProcessInstanceId(), "fileName", fieldDTO.getFileName());
 			}else if(fieldDTO.getType().equals("multiselect")) {
 				runtimeService.setVariable(task.getProcessInstanceId(), fieldDTO.getId(), fieldDTO.getMultiselectValues());
-			}else if(!fieldDTO.getType().equals("downloadBtn")) {
+			}else if(fieldDTO.getType().equals("reviews")) {
+				if(fieldDTO.getReviews().get(0).isForEditor() == true) continue;
+				runtimeService.setVariable(task.getProcessInstanceId(), "reviewsForAuthor", fieldDTO.getReviews());
+				fieldDTO.changeReviewsToEditors();
+				runtimeService.setVariable(task.getProcessInstanceId(), "reviews", fieldDTO.getReviews());				
+			}else if(!fieldDTO.getType().equals("downloadBtn") && !fieldDTO.getType().equals("link") && !fieldDTO.getType().equals("filter")) {
 				runtimeService.setVariable(task.getProcessInstanceId(), fieldDTO.getId(), fieldDTO.getValue());
 			}
 		}
@@ -191,6 +222,33 @@ public class FormsController {
 		}
 		
 		return map;
+	}
+	
+	@GetMapping("/doSubscription")
+	public void subscription(@PathParam("taskId") String taskId, @PathParam("status") String status) {
+		Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
+		runtimeService.setVariable(task.getProcessInstanceId(), "membershipPaymentStatus", status);
+		taskService.complete(taskId);
+	}
+	
+	@PostMapping("/form/filterReviewers/{taskId}")
+	public ResponseEntity<FormDTO> filterReviewers(@PathVariable("taskId") String taskId, @RequestBody FormDTO formDTO){
+		Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
+		String scinetificAreaId = runtimeService.getVariable(task.getProcessInstanceId(), "scientificArea").toString();
+		
+		HashMap<String, String> filteredReviewers = new HashMap<>();
+		
+		FormFieldDTO field = formDTO.getFieldById("selectedReviewers");
+		for(HashMap.Entry<String,String> entry : field.getSelectValues().entrySet()){
+			UserDetails reviewer = udRepository.findUserDetailsByUsername(entry.getKey());
+			if(reviewer.isReviewerOf(scinetificAreaId)) {
+				filteredReviewers.put(entry.getKey(), entry.getValue());
+			}
+		}
+		
+		field.setSelectValues(filteredReviewers);
+
+		return new ResponseEntity<>(formDTO, HttpStatus.OK);
 	}
 	
 }

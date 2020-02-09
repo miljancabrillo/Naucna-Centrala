@@ -28,7 +28,6 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import com.nc.services.MailService;
 @Configuration
-@EnableWebMvc
 @SpringBootApplication
 public class NcApplication {
 

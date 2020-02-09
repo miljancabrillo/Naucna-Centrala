@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -42,7 +43,7 @@ public class UserDetails implements Serializable{
 	private String email;
 	private boolean isAssignedAsEditor = false;
 	
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER)
 	private List<ScientificArea> scientificAreas;
 	
 	private String password;
@@ -67,6 +68,13 @@ public class UserDetails implements Serializable{
 	public boolean isReviewerOf(ArrayList<ScientificArea> scientificAreas) {
 		for (ScientificArea scientificArea : scientificAreas) {
 			if(this.scientificAreas.contains(scientificArea)) return true;
+		}
+		return false;
+	}
+	
+	public boolean isReviewerOf(String sciAreaId) {
+		for (ScientificArea scientificArea : scientificAreas) {
+			if(scientificArea.getId().equals(sciAreaId)) return true;
 		}
 		return false;
 	}

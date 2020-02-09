@@ -1,6 +1,6 @@
 <form class="pt-4 mt-1 ml-3">
     <div class="form-group row" *ngFor="let field of form.fields">
-        <div class="col-4">
+        <div class="col-4" *ngIf="field.type != 'reviews' && field.type != 'downloadBtn'">
             <label>{{field.label}}</label>
         </div>
         <div class="col-8" *ngIf="field.type == 'enum'">
@@ -31,11 +31,48 @@
         <div class="col-8" class="pl-2" *ngIf="field.type == 'boolean'">
             <input  type="checkbox" class="form-check-input ml-2" [(ngModel)]="field.value" [ngModelOptions]="{standalone: true}" [readonly]="field.readonly">
         </div>
-        <div class="col-8" class="pl-2" *ngIf="field.type == 'downloadBtn'">
+        <div class="col-12" class="pl-2" *ngIf="field.type == 'downloadBtn'">
             <a (click)="linkClick(field.value)">{{field.linkText}}</a>
         </div>
+
+        <div class="col-12" class="pl-2" *ngIf="field.type == 'link'">
+            <a [href]="field.linkUrl" target="_blank">{{field.linkText}}</a> 
+        </div>
+        
+        <div class="col-12" class="pl-2" *ngIf="field.type == 'filter'">
+            <div class="row">
+                <button class="btn btn-link" (click)="filterBySciArea()">Filter by selected scinetific area area</button>
+                <button class="btn btn-link" (click)="removeFilter()">Remove filter</button>
+            </div>
+        </div>
+
+        <div class="col-12" class="px-4 mr-1" *ngIf="field.type == 'reviews'">
+            <div class="row mb-2 font-italic border-bottom">{{field.label}}</div>
+            <div class="row border-bottom py-1"  *ngFor="let review of field.reviews">
+                <div class="col-2 py-1">Review:</div>
+                <div class="col-10 py-1">
+                    <textarea class="form-control" disabled>{{review.review}}</textarea>
+                </div>
+                <div class="col-2 py-1">Reply:</div>
+                <div class="col-10 py-1">
+                    <textarea class="form-control" [(ngModel)]="review.authorReply" [ngModelOptions]="{standalone: true}"  [readonly]="review.forEditor"></textarea>
+                </div>
+                <div class="col-2 py-1" *ngIf="review.forEditor == true">Comment:</div>
+                <div class="col-10 py-1" *ngIf="review.forEditor == true">
+                    <textarea class="form-control" disabled>{{review.commentForEditor}}</textarea>
+                </div>
+                <div class="col-2 py-1">Status:</div>
+                <div class="col-10 py-1">
+                    <label *ngIf="review.status == 'accept'"><b>Accept</b></label>
+                    <label *ngIf="review.status == 'acceptMinor'"><b>Accept with minor changes</b></label>
+                    <label *ngIf="review.status == 'acceptMajor'"><b>Accept with major changes</b></label>
+                    <label *ngIf="review.status == 'decline'"><b>Decline</b></label>
+
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="form-group row">
+    <div class="form-group row" *ngIf="hasLink != true">
         <div class="col-10">
             <p class="text-danger">{{errorMessage}}</p>
         </div>

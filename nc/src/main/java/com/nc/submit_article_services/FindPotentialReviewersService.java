@@ -24,13 +24,22 @@ public class FindPotentialReviewersService implements JavaDelegate {
 		long magazineId = Long.parseLong(execution.getVariable("selectedMagazineId").toString());
 		Magazine magazine = magazineRepository.findOneById(magazineId);
 		
+		String selectedAreaId = execution.getVariable("scientificArea").toString();
+		boolean areaReveiwerFound = false;
+		
 		HashMap<String, String> reviewersMap = new HashMap<>();
 	
 		for (UserDetails reviewer : magazine.getReviewers()) {
+			if(reviewer.isReviewerOf(selectedAreaId)) areaReveiwerFound = true;
 			reviewersMap.put(reviewer.getUsername(), reviewer.getName() + " " + reviewer.getSurname());
 		}
 		
-		execution.setVariable("potentialReviewers", reviewersMap);
+		if(areaReveiwerFound) {
+			execution.setVariable("potentialReviewers", reviewersMap);
+			execution.setVariable("reviewersFound", true);
+		}else {
+			execution.setVariable("reviewersFound", false);
+		}
 		
 	}
 

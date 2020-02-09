@@ -12,17 +12,37 @@ export class GenericFormComponent implements OnInit {
 
   form : Form = new Form();
   errorMessage : string = "";
+  hasLink : boolean = false;
 
   constructor(private taskService : TaskService) { 
     taskService.getForm().subscribe(
       data => {
         this.form = data;
+        for(let filed of this.form.fields){
+          if(filed.type == "link") this.hasLink = true;
+        }
         console.log(this.form);
       }
     )
   }
 
   ngOnInit() {
+  }
+
+  removeFilter(){
+    this.taskService.getForm().subscribe(
+      data => {
+        this.form = data;
+      }
+    )
+  }
+
+  filterBySciArea(){
+    this.taskService.filterForm(this.form).subscribe(
+      data =>{
+        this.form = data;
+      }
+    )
   }
 
   fileChoserListener(files: FileList, filed : FormField){
