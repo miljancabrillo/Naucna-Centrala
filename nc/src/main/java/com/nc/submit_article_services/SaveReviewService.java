@@ -16,11 +16,11 @@ public class SaveReviewService implements JavaDelegate {
 	@Autowired
 	UserDetailsRepository udRepository;
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public void execute(DelegateExecution execution) throws Exception {
 		// TODO Auto-generated method stub
 
-		@SuppressWarnings("unchecked")
 		ArrayList<Review> reviews = (ArrayList<Review>) execution.getVariable("reviews");
 		ArrayList<Review> reviewsForAuthor = (ArrayList<Review>) execution.getVariable("reviewsForAuthor");
 	

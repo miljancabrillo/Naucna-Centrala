@@ -16,6 +16,9 @@
         <div class="col-8" *ngIf="field.type == 'string'">
             <input type="text" class="form-control" [(ngModel)]="field.value" [ngModelOptions]="{standalone: true}" [readonly]="field.readonly">
         </div>
+        <div class="col-8" *ngIf="field.type == 'duration'">
+            <input type="text" class="form-control" [(ngModel)]="field.value" [ngModelOptions]="{standalone: true}" [readonly]="field.readonly">
+        </div>
         <div class="col-8" *ngIf="field.type == 'long'">
             <input type="number" class="form-control" [(ngModel)]="field.value" [ngModelOptions]="{standalone: true}" [readonly]="field.readonly">
         </div>
@@ -32,7 +35,7 @@
             <input  type="checkbox" class="form-check-input ml-2" [(ngModel)]="field.value" [ngModelOptions]="{standalone: true}" [readonly]="field.readonly">
         </div>
         <div class="col-12" class="pl-2" *ngIf="field.type == 'downloadBtn'">
-            <a (click)="linkClick(field.value)">{{field.linkText}}</a>
+            <a (click)="linkClick(field.value)" class="btn btn-link">{{field.linkText}}</a>
         </div>
 
         <div class="col-12" class="pl-2" *ngIf="field.type == 'link'">

@@ -21,7 +21,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class MailService {
 
-	public void sendMail(String content, String email) throws AddressException, MessagingException, IOException {
+	public void sendMail(String content, String email, String subject) throws AddressException, MessagingException, IOException {
 		   Properties props = new Properties();
 		   props.put("mail.smtp.auth", "true");
 		   props.put("mail.smtp.starttls.enable", "true");
@@ -38,8 +38,8 @@ public class MailService {
 		   msg.setFrom(new InternetAddress("miljanupp@gmail.com", false));
 
 		   msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email));
-		   msg.setSubject("NC registration!");
-		   msg.setContent("NC registration", "text/html");
+		   msg.setSubject(subject);
+		   msg.setContent(subject, "text/html");
 		   msg.setSentDate(new Date());
 		   
 		   MimeBodyPart messageBodyPart = new MimeBodyPart();

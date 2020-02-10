@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import com.nc.model.Membership;
 import com.nc.repository.MembershipRepository;
-import com.nc.repository.UserDetailsRepository;
 
 @Service
 public class MembershipDataService implements JavaDelegate {

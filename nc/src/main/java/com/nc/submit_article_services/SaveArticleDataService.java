@@ -29,7 +29,7 @@ public class SaveArticleDataService implements JavaDelegate {
 	@Override
 	public void execute(DelegateExecution execution) throws Exception {
 		// TODO Auto-generated method stub
-
+		
 		Article article = new Article();
 		article.setTitle(execution.getVariable("title").toString());
 		article.setCoauthors((ArrayList<Coauthor>) execution.getVariable("coauthors"));
@@ -37,8 +37,10 @@ public class SaveArticleDataService implements JavaDelegate {
 		article.setArticleAbstract(execution.getVariable("abstract").toString());
 		article.setPdfFileName(execution.getVariable("fileName").toString());
 		
-		articleRepository.save(article);
+		article = articleRepository.save(article);
 		
+		execution.setVariable("articleId", article.getId());
+
 		long magazineId = Long.parseLong(execution.getVariable("selectedMagazineId").toString());
 		Magazine magazien = magazineRepository.findOneById(magazineId);
 		

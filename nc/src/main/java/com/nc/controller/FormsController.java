@@ -3,6 +3,8 @@ package com.nc.controller;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.websocket.server.PathParam;
 
@@ -168,11 +170,18 @@ public class FormsController {
 						,HttpStatus.BAD_REQUEST);				
 			}
 			
-			if(fieldDTO.getType().equals("reviews")) {
-				if(fieldDTO.getReviews().get(0).isForEditor() == true) continue;
-				for (Review review : fieldDTO.getReviews()) {
-					if(review.getAuthorReply()==null || review.getAuthorReply().equals("")) return new ResponseEntity<>("You must reply to all reviews!",HttpStatus.BAD_REQUEST);				
-				}
+			if(fieldDTO.getType().equals("multiselect")){
+				int selectConstraint = Integer.parseInt(field.getProperties().get("minSelected"));
+				if(selectConstraint > fieldDTO.getMultiselectValues().size()) return new ResponseEntity<>("Select at least " + selectConstraint + " elements in multiselect!"
+						,HttpStatus.BAD_REQUEST);				
+			}
+			
+			if(fieldDTO.getType().equals("email")) {
+				if(!isMailValid(fieldDTO.getValue())) return new ResponseEntity<>("Invalid email format!",HttpStatus.BAD_REQUEST);				
+			}
+			
+			if(fieldDTO.getType().equals("duration")) {
+				if(!isDurationValid(fieldDTO.getValue())) return new ResponseEntity<>("Invalid duration format!",HttpStatus.BAD_REQUEST);				
 			}
 			
 		}
@@ -251,4 +260,22 @@ public class FormsController {
 		return new ResponseEntity<>(formDTO, HttpStatus.OK);
 	}
 	
+	private boolean isMailValid(String email) {
+		String regex = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$";
+		 
+		Pattern pattern = Pattern.compile(regex);
+		Matcher matcher = pattern.matcher(email);
+		return matcher.matches();
+		 
+	}
+	
+	private boolean isDurationValid(String duration) {
+		String regex = "^P(?!$)(\\d+Y)?(\\d+M)?(\\d+W)?(\\d+D)?(T(?=\\d)(\\d+H)?(\\d+M)?(\\d+S)?)?$";
+		 
+		Pattern pattern = Pattern.compile(regex);
+		Matcher matcher = pattern.matcher(duration);
+		return matcher.matches();
+		 
+	}
+
 }
