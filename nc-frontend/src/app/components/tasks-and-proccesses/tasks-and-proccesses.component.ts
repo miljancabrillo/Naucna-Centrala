@@ -14,6 +14,7 @@ export class TasksAndProccessesComponent implements OnInit, OnDestroy {
   intervalOne;
   intervalTwo;
   currentTask : string;
+  proccesses : Map<string,string> = new Map();
 
   constructor(private router : Router, private route: ActivatedRoute, private taskService : TaskService) { 
     this.intervalOne = setInterval(()=>{
@@ -26,6 +27,11 @@ export class TasksAndProccessesComponent implements OnInit, OnDestroy {
     this.intervalTwo = setInterval(()=>{
       this.currentTask = this.taskService.getCurrentTaskId();
      }, 500);
+     this.taskService.getProccesses().subscribe(
+       data =>{
+         this.proccesses = data;
+       }
+     )
   }
 
   ngOnInit() {

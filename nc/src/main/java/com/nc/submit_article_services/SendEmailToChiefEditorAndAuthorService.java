@@ -33,8 +33,8 @@ public class SendEmailToChiefEditorAndAuthorService implements JavaDelegate {
 		UserDetails author = udRepository.findUserDetailsByUsername(authorUsername);
 		
 		execution.setVariable("chiefEditorId", editor.getUsername());
-		mailService.sendMail("You have new atricle submitet to you magazine!", editor.getEmail(),"Article submit");
-		mailService.sendMail("Your article has been submited succesfully!", author.getEmail(), "Article submit");
+		//mailService.sendMail("You have new atricle submitet to you magazine!", editor.getEmail(),"Article submit");
+		//mailService.sendMail("Your article has been submited succesfully!", author.getEmail(), "Article submit");
 		
 	}
 

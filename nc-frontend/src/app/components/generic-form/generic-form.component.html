@@ -35,11 +35,11 @@
             <input  type="checkbox" class="form-check-input ml-2" [(ngModel)]="field.value" [ngModelOptions]="{standalone: true}" [readonly]="field.readonly">
         </div>
         <div class="col-12" class="pl-2" *ngIf="field.type == 'downloadBtn'">
-            <a (click)="linkClick(field.value)" class="btn btn-link">{{field.linkText}}</a>
+            <a (click)="linkClick(field.value)" class="text-success">{{field.linkText}}</a>
         </div>
 
-        <div class="col-12" class="pl-2" *ngIf="field.type == 'link'">
-            <a [href]="field.linkUrl" target="_blank">{{field.linkText}}</a> 
+        <div class="col-12" class="pl-2" *ngIf="field.type == 'link' && showLink==true">
+            <a (click)="linkClick2(field.linkUrl)" class="text-success" >{{field.linkText}}</a> 
         </div>
         
         <div class="col-12" class="pl-2" *ngIf="field.type == 'filter'">
@@ -49,8 +49,8 @@
             </div>
         </div>
 
-        <div class="col-12" class="px-4 mr-1" *ngIf="field.type == 'reviews'">
-            <div class="row mb-2 font-italic border-bottom">{{field.label}}</div>
+        <div class="col-12 mb-2 font-italic border-bottom" *ngIf="field.type == 'reviews'">{{field.label}}</div>
+        <div class="col-12" class="px-4 mr-1" style="max-height: 500px; overflow-y: scroll;" *ngIf="field.type == 'reviews'">
             <div class="row border-bottom py-1"  *ngFor="let review of field.reviews">
                 <div class="col-2 py-1">Review:</div>
                 <div class="col-10 py-1">

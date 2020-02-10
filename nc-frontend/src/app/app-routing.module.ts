@@ -55,6 +55,8 @@ const routes: Route []= [
       {path: 'reviewRecensions', component: GenericFormComponent},
       {path: 'recensionsMinorCorrection', component: GenericFormComponent},
       {path: 'reviewEditedArticle', component: GenericFormComponent},
+      {path: 'reviewEditedArticle2', component: GenericFormComponent},
+
       {path: 'majorCorrection', component: GenericFormComponent},
       {path: 'Task_1ha7bnj', component: GenericFormComponent},
 

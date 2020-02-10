@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_11bg7bl" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="3.4.1">
-  <bpmn:process id="create_magazine" name="create_magazine" isExecutable="true">
+  <bpmn:process id="create_magazine" name="create_magazine" isExecutable="true" camunda:candidateStarterGroups="editor">
     <bpmn:startEvent id="StartEvent_1" camunda:initiator="initiatorId">
       <bpmn:outgoing>SequenceFlow_1kl7ti5</bpmn:outgoing>
     </bpmn:startEvent>

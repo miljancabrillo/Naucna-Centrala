@@ -170,10 +170,12 @@ public class FormsController {
 						,HttpStatus.BAD_REQUEST);				
 			}
 			
-			if(fieldDTO.getType().equals("multiselect")){
-				int selectConstraint = Integer.parseInt(field.getProperties().get("minSelected"));
-				if(selectConstraint > fieldDTO.getMultiselectValues().size()) return new ResponseEntity<>("Select at least " + selectConstraint + " elements in multiselect!"
-						,HttpStatus.BAD_REQUEST);				
+			if(fieldDTO.getType().endsWith("reviews")) {
+				if(fieldDTO.getReviews().get(0).isForEditor() == true) continue;
+				for(Review review : fieldDTO.getReviews()) {
+					if(review.getAuthorReply() == null || review.getAuthorReply().equals("")) return new ResponseEntity<>("Reply to all reviews!",HttpStatus.BAD_REQUEST);				
+				}
+
 			}
 			
 			if(fieldDTO.getType().equals("email")) {

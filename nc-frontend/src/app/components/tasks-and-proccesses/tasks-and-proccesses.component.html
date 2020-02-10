@@ -4,15 +4,10 @@
             <div class="row mb-3">
                 <h5>My processes:</h5>
                 <div class="list-group border rounded w-100" style="max-height: 150px; overflow-y:  scroll;">
-                    <div class="list-group-item" style="display: block">
-                        <label class="form-check-label">Create magazine</label>
+                    <div class="list-group-item" style="display: block" *ngFor="let entry of proccesses | keyvalue">
+                        <label class="form-check-label">{{entry.value}}</label>
                         <button class="btn btn-link mb-1 ml-5"
-                            (click)="startProccess('create_magazine')">Start</button>
-                    </div>
-                    <div class="list-group-item" style="display: block">
-                        <label class="form-check-label">Submit article</label>
-                        <button class="btn btn-link mb-1 ml-5"
-                            (click)="startProccess('submit_article')">Start</button>
+                            (click)="startProccess(entry.key)">Start</button>
                     </div>
                 </div>    
             </div>

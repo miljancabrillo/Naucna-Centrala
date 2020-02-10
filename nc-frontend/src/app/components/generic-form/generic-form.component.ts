@@ -13,6 +13,7 @@ export class GenericFormComponent implements OnInit {
   form : Form = new Form();
   errorMessage : string = "";
   hasLink : boolean = false;
+  showLink : boolean = true;
 
   constructor(private taskService : TaskService) { 
     taskService.getForm().subscribe(
@@ -79,6 +80,10 @@ export class GenericFormComponent implements OnInit {
     var win = window.open();
     win.document.body.style.margin = "0px 0px 0px 0px"
     win.document.body.innerHTML = '<iframe src="' + value  + '" frameborder="0" style="border:0; top:0px; left:0px; bottom:0px; right:0px; width:100%; height:100%;" allowfullscreen></iframe>';
+ }
+ linkClick2(url : string){
+   this.showLink = false;
+   window.open(url,"_blank");
  }
 
 }

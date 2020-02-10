@@ -2,6 +2,7 @@ package com.nc.dto;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.nc.model.ScientificArea;
 
 import lombok.AllArgsConstructor;
@@ -16,6 +17,7 @@ import lombok.Setter;
 public class MagazineDTO {
 
 	private String name;
+	@JsonProperty("ISSN")
 	private long ISSN;
 	private List<ScientificArea> scientificAreas;
 	private boolean openAccess;

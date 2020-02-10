@@ -57,4 +57,8 @@ export class TaskService{
     completeTask(){
         return this.http.post('api/tp/completeTask/' + this.currentTaskId, null)
     }
+
+    getProccesses(){
+        return this.http.get<Map<string,string>>('api/tp/myProcceses')
+    }
 }

@@ -1,11 +1,13 @@
 package com.nc.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.camunda.bpm.engine.IdentityService;
 import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.TaskService;
+import org.camunda.bpm.engine.identity.Group;
 import org.camunda.bpm.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -117,5 +119,19 @@ public class TasksAndProccessesController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-	
+	@GetMapping("/myProcceses")
+	public ResponseEntity<HashMap<String, String>> myProcceses(){
+		List<Group> groups = identityService.createGroupQuery().groupMember(userService.getCurrentUsername()).list();
+		HashMap<String, String> proccesses = new HashMap<>();
+ 		
+		for(Group group : groups) {
+			if(group.getId().equals("editor")) {
+				proccesses.put("create_magazine", "Create new magazine");
+			}
+			if(group.getId().equals("author")) {
+				proccesses.put("submit_article", "Submit new article");
+			}
+		}
+		return new ResponseEntity<>(proccesses, HttpStatus.OK);
+	}
 }

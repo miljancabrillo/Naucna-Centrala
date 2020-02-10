@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1li4fwh" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="3.4.1">
-  <bpmn:process id="submit_article" name="Article submit and review process" isExecutable="true">
+  <bpmn:process id="submit_article" name="Article submit and review process" isExecutable="true" camunda:candidateStarterGroups="author">
     <bpmn:startEvent id="startArticleSubmitAndReviewProcess" camunda:initiator="AuthorId">
       <bpmn:outgoing>SequenceFlow_0b5iqaj</bpmn:outgoing>
     </bpmn:startEvent>
@@ -55,7 +55,7 @@
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="SequenceFlow_1ro4kgl" sourceRef="ExclusiveGateway_1hqktnv" targetRef="inputArticleInformation" />
     <bpmn:sequenceFlow id="SequenceFlow_1ib38es" sourceRef="sendEmailNotificationToChiefEditorAndToAuthor" targetRef="reviewTitleAbstractAndMainConceptsOfArticle" />
-    <bpmn:userTask id="reviewTitleAbstractAndMainConceptsOfArticle" name="Review title, abstract and key words of article" camunda:assignee="${chiefEditorId}">
+    <bpmn:userTask id="reviewTitleAbstractAndMainConceptsOfArticle" name="Review article&#39;s data" camunda:assignee="${chiefEditorId}">
       <bpmn:extensionElements>
         <camunda:formData>
           <camunda:formField id="title" label="Title" type="string">
@@ -68,12 +68,14 @@
             <camunda:properties>
               <camunda:property id="fillValue" />
               <camunda:property id="readonly" />
+              <camunda:property id="type" value="textarea" />
             </camunda:properties>
           </camunda:formField>
           <camunda:formField id="keyWords" label="Key words" type="string">
             <camunda:properties>
               <camunda:property id="readonly" />
               <camunda:property id="fillValue" />
+              <camunda:property id="type" value="textarea" />
             </camunda:properties>
           </camunda:formField>
           <camunda:formField id="acceptArticle" label="Accept article" type="boolean" />
@@ -107,7 +109,7 @@
     <bpmn:sequenceFlow id="isFormattingOkNo" name="No" sourceRef="isFormattingOk" targetRef="commentFormattingMistakes">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression" language="JavaScript">acceptPdfFormatting == null || acceptPdfFormatting == "false"</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:userTask id="commentFormattingMistakes" name="Comment formatting mistakes" camunda:assignee="${chiefEditorId}">
+    <bpmn:userTask id="commentFormattingMistakes" name="Comment formatting" camunda:assignee="${chiefEditorId}">
       <bpmn:extensionElements>
         <camunda:formData>
           <camunda:formField id="comment" label="Comment formatting errors" type="string">
@@ -121,7 +123,7 @@
       <bpmn:incoming>isFormattingOkNo</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0yi5phc</bpmn:outgoing>
     </bpmn:userTask>
-    <bpmn:userTask id="reviewFormattingOfPDFFile" name="Review formatting of  PDF file" camunda:assignee="${chiefEditorId}">
+    <bpmn:userTask id="reviewFormattingOfPDFFile" name="Review PDF formatting " camunda:assignee="${chiefEditorId}">
       <bpmn:extensionElements>
         <camunda:formData>
           <camunda:formField id="downloadPdf" type="string">
@@ -283,7 +285,7 @@
     <bpmn:userTask id="reviewEditorCommmentAndUploadCorrectedPDF" name="Review editor commment and upload corrected PDF" camunda:assignee="${AuthorId}">
       <bpmn:extensionElements>
         <camunda:formData>
-          <camunda:formField id="comment" label="Editor&#39;s commetn" type="string">
+          <camunda:formField id="comment" label="Editor&#39;s comment" type="string">
             <camunda:properties>
               <camunda:property id="readonly" />
               <camunda:property id="fillValue" />
@@ -413,11 +415,17 @@
             </camunda:validation>
           </camunda:formField>
           <camunda:formField id="abstract" label="Abstract" type="string">
+            <camunda:properties>
+              <camunda:property id="type" value="textarea" />
+            </camunda:properties>
             <camunda:validation>
               <camunda:constraint name="required" />
             </camunda:validation>
           </camunda:formField>
           <camunda:formField id="keyWords" label="Key words" type="string">
+            <camunda:properties>
+              <camunda:property id="type" value="textarea" />
+            </camunda:properties>
             <camunda:validation>
               <camunda:constraint name="required" />
             </camunda:validation>
@@ -504,7 +512,7 @@
     <bpmn:sequenceFlow id="SequenceFlow_0bstgj8" sourceRef="addChiefEditorToReviewersList" targetRef="ExclusiveGateway_170vt17" />
     <bpmn:sequenceFlow id="SequenceFlow_0gstna9" sourceRef="selectReviewer" targetRef="ExclusiveGateway_170vt17" />
     <bpmn:sequenceFlow id="SequenceFlow_1mssngm" sourceRef="sendNotificationToAuthor" targetRef="recensionsMinorCorrection" />
-    <bpmn:userTask id="majorCorrection" name="Respond to recensions and submit corrected PDF" camunda:assignee="${AuthorId}">
+    <bpmn:userTask id="majorCorrection" name="Respond to recensions" camunda:assignee="${AuthorId}">
       <bpmn:extensionElements>
         <camunda:formData>
           <camunda:formField id="review" label="Reviews" type="string">
@@ -527,7 +535,7 @@
       <bpmn:outgoing>SequenceFlow_0gr1uiy</bpmn:outgoing>
     </bpmn:userTask>
     <bpmn:sequenceFlow id="SequenceFlow_0bik5gj" sourceRef="reviewEditedArticle2" targetRef="ExclusiveGateway_0fsgmft" />
-    <bpmn:userTask id="recensionsMinorCorrection" name="Respond to recensions and submit corrected PDF" camunda:assignee="${AuthorId}">
+    <bpmn:userTask id="recensionsMinorCorrection" name="Respond to recensions" camunda:assignee="${AuthorId}">
       <bpmn:extensionElements>
         <camunda:formData>
           <camunda:formField id="reviewsAuthor" label="Reviews" type="string">
@@ -575,7 +583,7 @@
     <bpmn:userTask id="setReviewDeadline" name="Set review deadline" camunda:assignee="${selectReviewersAssaigneeId}">
       <bpmn:extensionElements>
         <camunda:formData>
-          <camunda:formField id="reviewDeadline" label="Review deadline(minutes)" type="string">
+          <camunda:formField id="reviewDeadline" label="Review deadline" type="string">
             <camunda:properties>
               <camunda:property id="type" value="duration" />
             </camunda:properties>
@@ -637,7 +645,7 @@
       <bpmn:startEvent id="StartEvent_0m7dp0c">
         <bpmn:outgoing>SequenceFlow_1pka7ic</bpmn:outgoing>
       </bpmn:startEvent>
-      <bpmn:userTask id="reviewArticleAndSubmitRecensions" name="Review article and submit recensions" camunda:assignee="${reviewerId}">
+      <bpmn:userTask id="reviewArticleAndSubmitRecensions" name="Review article" camunda:assignee="${reviewerId}">
         <bpmn:extensionElements>
           <camunda:formData>
             <camunda:formField id="review" label="Review" type="string">

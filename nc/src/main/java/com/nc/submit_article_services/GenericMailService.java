@@ -52,6 +52,6 @@ public class GenericMailService implements JavaDelegate {
 		}
 		
 		UserDetails user = udRepository.findUserDetailsByUsername(execution.getVariable(reciverId).toString());
-		mailService.sendMail(content, user.getEmail(), subject);
+		//mailService.sendMail(content, user.getEmail(), subject);
 	}
 }
