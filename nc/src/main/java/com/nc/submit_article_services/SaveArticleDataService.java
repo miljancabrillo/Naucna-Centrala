@@ -30,19 +30,21 @@ public class SaveArticleDataService implements JavaDelegate {
 	public void execute(DelegateExecution execution) throws Exception {
 		// TODO Auto-generated method stub
 		
+		long magazineId = Long.parseLong(execution.getVariable("selectedMagazineId").toString());
+		Magazine magazien = magazineRepository.findOneById(magazineId);
+		
 		Article article = new Article();
 		article.setTitle(execution.getVariable("title").toString());
 		article.setCoauthors((ArrayList<Coauthor>) execution.getVariable("coauthors"));
 		article.setKeyWords(execution.getVariable("keyWords").toString());
 		article.setArticleAbstract(execution.getVariable("abstract").toString());
 		article.setPdfFileName(execution.getVariable("fileName").toString());
+		article.setMagazine(magazien);
+		article = articleRepository.saveAndFlush(article);
 		
-		article = articleRepository.save(article);
 		
 		execution.setVariable("articleId", article.getId());
 
-		long magazineId = Long.parseLong(execution.getVariable("selectedMagazineId").toString());
-		Magazine magazien = magazineRepository.findOneById(magazineId);
 		
 		String editorUsername = "";
 		

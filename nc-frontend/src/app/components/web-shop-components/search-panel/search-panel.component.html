@@ -1,1 +1,48 @@
-<p>search-panel works!</p>
+<div class="container px-5">
+    <div class="row border-bottom mt-3 px-3">
+        <div class="col-11">       
+             <h4>Search:</h4>
+        </div>
+        <div class="col-1 pl-4">
+            <button class="btn btn-link ml-1" (click)="add()">Add</button>
+        </div>
+    </div>
+    <div class="row pb-1 pt-2 border-bottom" *ngFor="let field of searchFields">
+        <div class="col-2">
+            <select class="form-control form-control-sm" [(ngModel)]="field.operator" [ngModelOptions]="{standalone: true}">
+                <option value="must">and</option>
+                <option value="mustnot">and not</option>
+                <option value="should">or</option>
+            </select>
+        </div>
+        <div class="col-2">
+            <select class="form-control form-control-sm" [(ngModel)]="field.field" [ngModelOptions]="{standalone: true}">
+                <option value="magazineName">Magazine name</option>
+                <option value="title">Article's title</option>
+                <option value="coauthors">Coauthors</option>
+                <option value="keyWords">Key words</option> 
+                <option value="scientificArea">Scientific area</option>
+                <option value="content">Content</option>
+            </select>
+        </div>
+        <div class="col-2">
+            <select class="form-control form-control-sm" [(ngModel)]="field.searchType" [ngModelOptions]="{standalone: true}">
+                <option value="regular">Regular search</option>
+                <option value="phrase">Phrase search</option>
+            </select>    
+        </div>
+        <div class="col-5">
+            <input type="text" class="form-control form-control-sm" [(ngModel)]="field.searchText" [ngModelOptions]="{standalone: true}">
+        </div>
+        <div class="col-1 pb-1">
+            <button class="btn btn-link" (click)="remove(field)">Remove</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-11">       
+        </div>
+        <div class="col-1 pl-2 pt-2">
+            <button class="btn btn-secondary" (click)="search()">Search</button>
+        </div>
+    </div>
+</div>

@@ -50,6 +50,12 @@ export class GenericFormComponent implements OnInit {
     let fileToUpload = files.item(0); 
     filed.fileName = files.item(0).name;
 
+    for(let f of this.form.fields){
+      if(f.id == "title"){
+        f.value = files.item(0).name;
+      }
+    }
+
     let fileReader = new FileReader();
 
     fileReader.onload = (e) => {

@@ -30,14 +30,14 @@ import org.springframework.web.bind.annotation.RestController;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 
-import sun.misc.BASE64Decoder;
-import sun.misc.BASE64Encoder;
 
 import com.nc.dto.FormDTO;
 import com.nc.dto.FormFieldDTO;
 import com.nc.model.Review;
 import com.nc.model.UserDetails;
 import com.nc.repository.UserDetailsRepository;
+
+import Decoder.BASE64Decoder;
 
 @RestController
 public class FormsController {
@@ -130,7 +130,6 @@ public class FormsController {
 		return new ResponseEntity<>(formDTO, HttpStatus.OK);
 	}
 	
-	@SuppressWarnings("restriction")
 	@PostMapping("/form/{taskId}")
 	public ResponseEntity<String> postFormFileds(@PathVariable("taskId") String taskId, @RequestBody FormDTO formDTO) throws IOException{
 

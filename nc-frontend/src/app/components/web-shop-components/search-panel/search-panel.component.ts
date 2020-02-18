@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { SearchField } from 'src/app/model/SearchField';
+import { SearchService } from 'src/app/services/SearchService';
 
 @Component({
   selector: 'app-search-panel',
@@ -7,9 +9,29 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SearchPanelComponent implements OnInit {
 
-  constructor() { }
+  searchFields : SearchField[] = new Array();
+
+  constructor(private searchService : SearchService) { 
+    this.searchFields.push(new SearchField());
+  }
 
   ngOnInit() {
+  }
+
+  add(){
+    this.searchFields.push(new SearchField());
+  }
+
+  remove(field : SearchField){
+    this.searchFields.splice(this.searchFields.indexOf(field),1);
+  }
+
+  search(){
+    this.searchService.search(this.searchFields).subscribe(
+      data =>{
+        console.log(data);
+      }
+    )
   }
 
 }
