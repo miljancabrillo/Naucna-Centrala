@@ -7,12 +7,17 @@ import java.io.FileOutputStream;
 import org.apache.commons.io.IOUtils;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
+import org.elasticsearch.action.index.IndexRequest;
+import org.elasticsearch.client.RequestOptions;
+import org.elasticsearch.client.RestHighLevelClient;
+import org.elasticsearch.common.xcontent.XContentType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nc.document_handlers.PDFHandler;
 import com.nc.elasticsearch_model.ArticleIndexingUnit;
-import com.nc.elasticsearch_repository.ArticleEsRepository;
+//import com.nc.elasticsearch_repository.ArticleEsRepository;
 import com.nc.model.Article;
 import com.nc.model.Coauthor;
 import com.nc.model.ScientificArea;
@@ -26,7 +31,7 @@ public class IndexingService implements JavaDelegate {
 	ArticleRepository articleRepository;
 
 	@Autowired
-	ArticleEsRepository articleEsRepository;
+	RestHighLevelClient client;
 	
 	@Autowired
 	ScientificAreaRepository sciAreaRepository;
@@ -77,8 +82,14 @@ public class IndexingService implements JavaDelegate {
 		
 		articleEs.setContent(pdfHandler.getText(outputFile));
 
-		articleEsRepository.save(articleEs);
-
+		IndexRequest indexRequest = new IndexRequest("articles_index");
+		indexRequest.id(Long.toString(article.getId()));
+		
+		ObjectMapper mapper = new ObjectMapper();
+		
+		indexRequest.source(mapper.writeValueAsString(articleEs), XContentType.JSON);
+		
+		client.index(indexRequest, RequestOptions.DEFAULT);
 	}
 
 }

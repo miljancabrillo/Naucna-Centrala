@@ -11,16 +11,14 @@ import { ShoppingCartService } from 'src/app/services/ShoppingCartService';
 export class WebShopComponent implements OnInit {
 
   articles : Article[];
-
+  showSearch : boolean = true;
+  searchResults : Article[];
   constructor(private searchService : SearchService, private cartService : ShoppingCartService) { 
-    searchService.getTestArticles().subscribe(
-      data => {
-        this.articles = data;
-        for(let article of this.articles){
-          article.addedToCart = article.bought;
-        }
-      }
-    )
+
+    setInterval(()=>{
+      this.showSearch = searchService.showSearch;
+      this.searchResults = searchService.searchResults;
+    }, 200)
   }
 
   ngOnInit() {

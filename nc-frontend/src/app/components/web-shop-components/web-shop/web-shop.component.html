@@ -1,40 +1,39 @@
 <div class="container-fluid px-5">
     <div class="row">
-        <div class="col-2">
+        <div class="col-2" *ngIf="showSearch == true">
         </div>
-        <div class="col-8">
+        <div class="col-7" *ngIf="showSearch == true">
             <app-search-panel></app-search-panel>
         </div>
-        <div class="col-8" hidden>
-            <div class="row">
-                <div class="col-2 border mx-1 my-2 py-1 rounded" *ngFor="let article of articles">
-                    <div class="form-group pl-2">
-                        <label class="font-weight-bold font-italic">Title:</label>
-                        <label class="d-block">{{article.title}}</label>
+        <div class="col-1" *ngIf="showSearch == false"></div>
+        <div class="col-7 mt-3" *ngIf="showSearch == false">
+            <div class="row border-bottom mb-2">
+                <h4>Results</h4>
+            </div>
+            <div class="row mb-3" *ngFor="let article of searchResults">
+                <div class="col-9">
+                    <h5 class="text-primary">{{article.title}}</h5>
+                </div>
+                <div class="col-3">
+                    <div class="float-right">
+                        <label><i>{{article.magazineName}}</i></label>
                     </div>
-                    <div class="form-group pl-2">
-                        <label class="font-weight-bold font-italic">Publisher:</label>
-                        <label class="d-block">{{article.magazineName}}</label>
-                    </div>
-                    <div class="form-group pl-2">
-                        <label class="font-weight-bold font-italic">Authors:</label>
-                        <label class="d-block" *ngFor="let author of article.authors">{{author}}</label>
-                    </div>
-                    <div class="form-group pl-2">
-                        <label class="font-weight-bold font-italic">Price:</label>
-                        <label class="d-block">{{article.price}}</label>
-                    </div>
-                    <div class="form-check">
-                        <button type="submit" class="btn btn-primary mx-1 float-right" *ngIf="article.bought == true">Open</button>
-                        <button type="submit" class="btn btn-primary mx-1 float-right" *ngIf="article.addedToCart == false" (click)="addToCart(article)">Add to cart</button>
-                    </div>
+                </div>
+                <div class="col-12 my-1" [innerHtml]="article.contentHighlight">
+                </div>
+                <div class="col-10">
+                    <label><b>Authors: &nbsp;&nbsp;</b></label>
+                    <label>{{article.authors}}</label>
+                </div>
+                <div class="col-1">
+                    <button class="btn btn-link">Download</button>
                 </div>
             </div>
         </div>
-        <div class="col-3" hidden>
+        <div class="col-1" *ngIf="showSearch == false">
+        </div>
+        <div class="col-3" *ngIf="showSearch == false">
             <app-shoping-cart ></app-shoping-cart>
-            <!--            <app-shoping-cart ></app-shoping-cart>
--->
         </div>
     </div>
 </div>

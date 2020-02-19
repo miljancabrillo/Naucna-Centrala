@@ -8,14 +8,15 @@ import { SearchField } from '../model/SearchField';
 })
 export class SearchService{
 
+    public showSearch = true;
+
+    public searchResults : Article[];
+
     constructor(private http : HttpClient){}
 
-    getTestArticles(){
-        return this.http.get<Article[]>("/api/testArticles");
-    }
 
     search(searchFields : SearchField[]){
-        return this.http.post("/api/search", searchFields);
+        return this.http.post<Article[]>("/api/search", searchFields);
     }
 
 }

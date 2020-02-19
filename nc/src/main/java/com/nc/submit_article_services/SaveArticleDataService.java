@@ -15,6 +15,7 @@ import com.nc.model.ScientificArea;
 import com.nc.model.UserDetails;
 import com.nc.repository.ArticleRepository;
 import com.nc.repository.MagazineRepository;
+import com.nc.repository.UserDetailsRepository;
 
 @Service
 public class SaveArticleDataService implements JavaDelegate {
@@ -24,6 +25,9 @@ public class SaveArticleDataService implements JavaDelegate {
 	
 	@Autowired
 	MagazineRepository magazineRepository;
+
+	@Autowired
+	UserDetailsRepository udRepository;
 	
 	@SuppressWarnings("unchecked")
 	@Override
@@ -33,6 +37,9 @@ public class SaveArticleDataService implements JavaDelegate {
 		long magazineId = Long.parseLong(execution.getVariable("selectedMagazineId").toString());
 		Magazine magazien = magazineRepository.findOneById(magazineId);
 		
+		String authhorUsername = execution.getVariable("AuthorId").toString();
+		UserDetails author = udRepository.findUserDetailsByUsername(authhorUsername);
+		
 		Article article = new Article();
 		article.setTitle(execution.getVariable("title").toString());
 		article.setCoauthors((ArrayList<Coauthor>) execution.getVariable("coauthors"));
@@ -40,6 +47,7 @@ public class SaveArticleDataService implements JavaDelegate {
 		article.setArticleAbstract(execution.getVariable("abstract").toString());
 		article.setPdfFileName(execution.getVariable("fileName").toString());
 		article.setMagazine(magazien);
+		article.setAuthor(author);
 		article = articleRepository.saveAndFlush(article);
 		
 		

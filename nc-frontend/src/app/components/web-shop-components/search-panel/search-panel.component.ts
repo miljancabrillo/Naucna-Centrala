@@ -29,7 +29,8 @@ export class SearchPanelComponent implements OnInit {
   search(){
     this.searchService.search(this.searchFields).subscribe(
       data =>{
-        console.log(data);
+        this.searchService.searchResults = data;
+        this.searchService.showSearch = false;
       }
     )
   }

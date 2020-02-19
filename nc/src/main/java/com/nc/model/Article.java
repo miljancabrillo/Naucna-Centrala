@@ -40,4 +40,7 @@ public class Article {
 	@ManyToOne
 	private Magazine magazine;
 	
+	@ManyToOne
+	private UserDetails author;
+	
 }
