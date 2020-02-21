@@ -3,6 +3,8 @@ package com.nc.submit_article_services;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.io.IOUtils;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
@@ -21,8 +23,10 @@ import com.nc.elasticsearch_model.ArticleIndexingUnit;
 import com.nc.model.Article;
 import com.nc.model.Coauthor;
 import com.nc.model.ScientificArea;
+import com.nc.model.UserDetails;
 import com.nc.repository.ArticleRepository;
 import com.nc.repository.ScientificAreaRepository;
+import com.nc.repository.UserDetailsRepository;
 
 @Service
 public class IndexingService implements JavaDelegate {
@@ -39,6 +43,10 @@ public class IndexingService implements JavaDelegate {
 	@Autowired
 	PDFHandler pdfHandler;
 	
+	@Autowired
+	UserDetailsRepository udRepository;
+	
+	@SuppressWarnings("unchecked")
 	@Override
 	public void execute(DelegateExecution execution) throws Exception {
 
@@ -60,6 +68,12 @@ public class IndexingService implements JavaDelegate {
 		
 		fos.flush();
 		fos.close();
+		
+		ArrayList<String> reviwers = (ArrayList<String>) execution.getVariable("selectedReviewers");
+		List<UserDetails> udReviewers = udRepository.findByUsernames(reviwers);
+		article.setReviewers((ArrayList<UserDetails>) udReviewers);
+		articleRepository.saveAndFlush(article);
+		
 
 		ArticleIndexingUnit articleEs = new ArticleIndexingUnit();
 		

@@ -12,4 +12,6 @@ export class RegistrationData{
     password : string= "";
     reviewerCandidate : boolean;
     errorMessage : string = "";
+    lon : number;
+    lat : number;
 }

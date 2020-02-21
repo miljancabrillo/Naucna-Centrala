@@ -29,6 +29,8 @@ import { WebShopComponent } from './components/web-shop-components/web-shop/web-
 import { SearchService } from './services/SearchService';
 import { ShoppingCartService } from './services/ShoppingCartService';
 
+import { GooglePlaceModule } from "ngx-google-places-autocomplete";
+
 
 @NgModule({
   declarations: [
@@ -54,7 +56,8 @@ import { ShoppingCartService } from './services/ShoppingCartService';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    GooglePlaceModule
   ],
   providers: [
     RegistrationService,

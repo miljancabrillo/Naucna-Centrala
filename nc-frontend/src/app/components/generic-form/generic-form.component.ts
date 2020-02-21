@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { TaskService } from 'src/app/services/TaskService';
 import { Form } from 'src/app/model/Form';
 import { FormField } from 'src/app/model/FormFiled';
+import { HttpClient } from '@angular/common/http';
+import  * as $ from 'jquery'
 
 @Component({
   selector: 'app-generic-form',
@@ -15,7 +17,7 @@ export class GenericFormComponent implements OnInit {
   hasLink : boolean = false;
   showLink : boolean = true;
 
-  constructor(private taskService : TaskService) { 
+  constructor(private taskService : TaskService, private http :HttpClient) { 
     taskService.getForm().subscribe(
       data => {
         this.form = data;
@@ -25,6 +27,17 @@ export class GenericFormComponent implements OnInit {
         console.log(this.form);
       }
     )
+  }
+  
+
+  addressChange(field){
+    let address = $("#autocomplete").val().replace(' ','+');
+     this.http.get<any>("https://maps.googleapis.com/maps/api/geocode/json?address="+address+"&key=AIzaSyDnihJyw_34z5S1KZXp90pfTGAqhFszNJk").subscribe(
+       data => {
+        field.lon = data.results[0].geometry.location.lng;
+        field.lat = data.results[0].geometry.location.lat;
+       }
+     )
   }
 
   ngOnInit() {
@@ -90,6 +103,22 @@ export class GenericFormComponent implements OnInit {
  linkClick2(url : string){
    this.showLink = false;
    window.open(url,"_blank");
+ }
+
+ filterGeo(){
+  this.taskService.filterGeo(this.form).subscribe(
+    data =>{
+      this.form = data;
+    }
+  )
+ }
+
+ filterMore(){
+  this.taskService.filterMore(this.form).subscribe(
+    data =>{
+      this.form = data;
+    }
+  )
  }
 
 }

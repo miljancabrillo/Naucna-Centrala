@@ -9,5 +9,6 @@ export class Article{
     bought : boolean;
     addedToCart : boolean = false;
     sceintificArea : string;
-	contentHighlight : string;
+    contentHighlight : string;
+    download : string;
 }

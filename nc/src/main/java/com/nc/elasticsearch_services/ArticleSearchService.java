@@ -89,21 +89,21 @@ public class ArticleSearchService {
 		for(SearchFieldDTO searchField : searchFields) {
 			if(searchField.getOperator().equals("must")) {
 				if(searchField.getSearchType().equals("regular")) {
-					qb.must(QueryBuilders.matchQuery(searchField.getField(), searchField.getSearchText()));
+					qb.must(QueryBuilders.matchQuery(searchField.getField(), searchField.getSearchText()).analyzer("serbian"));
 				}else {
-					qb.must(QueryBuilders.matchPhraseQuery(searchField.getField(), searchField.getSearchText()));
+					qb.must(QueryBuilders.matchPhraseQuery(searchField.getField(), searchField.getSearchText()).analyzer("serbian"));
 				}
 			}else if(searchField.getOperator().equals("mustnot")){
 				if(searchField.getSearchType().equals("regular")) {
-					qb.mustNot(QueryBuilders.matchQuery(searchField.getField(), searchField.getSearchText()));
+					qb.mustNot(QueryBuilders.matchQuery(searchField.getField(), searchField.getSearchText()).analyzer("serbian"));
 				}else {
-					qb.mustNot(QueryBuilders.matchPhraseQuery(searchField.getField(), searchField.getSearchText()));
+					qb.mustNot(QueryBuilders.matchPhraseQuery(searchField.getField(), searchField.getSearchText()).analyzer("serbian"));
 				}
 			}else {
 				if(searchField.getSearchType().equals("regular")) {
-					qb.should(QueryBuilders.matchQuery(searchField.getField(), searchField.getSearchText()));
+					qb.should(QueryBuilders.matchQuery(searchField.getField(), searchField.getSearchText()).analyzer("serbian"));
 				}else {
-					qb.should(QueryBuilders.matchPhraseQuery(searchField.getField(), searchField.getSearchText()));
+					qb.should(QueryBuilders.matchPhraseQuery(searchField.getField(), searchField.getSearchText()).analyzer("serbian"));
 				}
 			}
 		}

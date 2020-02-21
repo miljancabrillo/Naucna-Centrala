@@ -53,14 +53,7 @@ public class DataValidationService implements JavaDelegate{
 			dataStatus = "invalid";
 			rdto.setErrorMessage("Field password is required!");
 		}
-		if(rdto.getCity().equals("")) {
-			dataStatus = "invalid";
-			rdto.setErrorMessage("Field city is required!");
-		}
-		if(rdto.getCountry().equals("")) {
-			dataStatus = "invalid";
-			rdto.setErrorMessage("Field country is required!");
-		}
+	
 		if(rdto.getEmail().equals("")) {
 			dataStatus = "invalid";
 			rdto.setErrorMessage("Field email is required!");

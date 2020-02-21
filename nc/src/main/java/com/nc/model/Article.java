@@ -1,11 +1,14 @@
 package com.nc.model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
 import lombok.AllArgsConstructor;
@@ -21,7 +24,7 @@ import lombok.Setter;
 public class Article {
 	
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	
 	private String title;
@@ -42,5 +45,8 @@ public class Article {
 	
 	@ManyToOne
 	private UserDetails author;
+	
+	@ManyToMany
+	private List<UserDetails> reviewers;
 	
 }

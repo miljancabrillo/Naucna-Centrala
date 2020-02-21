@@ -26,5 +26,7 @@ public class RegistrationDTO {
 	private String password;
 	private boolean reviewerCandidate;
 	private String errorMessage;
+	private float lon;
+	private float lat;
 	
 }

@@ -1,22 +1,33 @@
-<div class="container-fluid px-5">
+<div class="container-fluid px-5 pt-2">
     <div class="row">
         <div class="col-2" *ngIf="showSearch == true">
         </div>
         <div class="col-7" *ngIf="showSearch == true">
             <app-search-panel></app-search-panel>
         </div>
-        <div class="col-1" *ngIf="showSearch == false"></div>
-        <div class="col-7 mt-3" *ngIf="showSearch == false">
-            <div class="row border-bottom mb-2">
-                <h4>Results</h4>
+        <div class="col-7 mt-3 pl-5 ml-5" *ngIf="showSearch == false" (show)="getSearchResults()">
+            <div class="row border-bottom mb-3">
+                <div class="col-10">
+                    <h4>Results</h4>
+                </div>
+                <div class="col-2">
+                    <div class="float-right">
+                        <button class="btn btn-link" (click)="backToSearh()">Back to search</button>
+                    </div>
+                </div>
             </div>
-            <div class="row mb-3" *ngFor="let article of searchResults">
-                <div class="col-9">
+            <div class="row mb-5" *ngFor="let article of searchResults">
+                <div class="col-8">
                     <h5 class="text-primary">{{article.title}}</h5>
                 </div>
-                <div class="col-3">
-                    <div class="float-right">
-                        <label><i>{{article.magazineName}}</i></label>
+                <div class="col-2">
+                    <div class="float-right pr-3" *ngIf="article.bought == false">
+                        <b>{{article.price}}$</b>
+                    </div>
+                </div>
+                <div class="col-2">
+                    <div class="float-right pr-3">
+                        <i>{{article.magazineName}}</i>
                     </div>
                 </div>
                 <div class="col-12 my-1" [innerHtml]="article.contentHighlight">
@@ -25,15 +36,18 @@
                     <label><b>Authors: &nbsp;&nbsp;</b></label>
                     <label>{{article.authors}}</label>
                 </div>
-                <div class="col-1">
-                    <button class="btn btn-link">Download</button>
+                <div class="col-2">
+                    <div class="float-right">
+                        <button (click)="linkClick(article.download)" *ngIf="article.bought == true" class="btn btn-link">Download</button>
+                        <button (click)="addToCart(article)" *ngIf="article.bought != true && article.addedToCart == false" class="btn btn-link">Add to cart</button>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="col-1" *ngIf="showSearch == false">
-        </div>
-        <div class="col-3" *ngIf="showSearch == false">
-            <app-shoping-cart ></app-shoping-cart>
+        <div class="col-4 pl-5 ml-5" *ngIf="showSearch == false">
+            <div class="pl-3">
+                <app-shoping-cart></app-shoping-cart>
+            </div>
         </div>
     </div>
 </div>

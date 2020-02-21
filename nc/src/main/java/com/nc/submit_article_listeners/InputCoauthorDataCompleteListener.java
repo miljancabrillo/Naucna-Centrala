@@ -18,9 +18,12 @@ public class InputCoauthorDataCompleteListener implements TaskListener{
 		Coauthor coauthor = new Coauthor();
 		coauthor.setName(delegateTask.getExecution().getVariable("coauthorName").toString());
 		coauthor.setSurname(delegateTask.getExecution().getVariable("coauthorSurname").toString());
-		coauthor.setCity(delegateTask.getExecution().getVariable("coauthorCity").toString());
-		coauthor.setCountry(delegateTask.getExecution().getVariable("coauthorCountry").toString());	
+		//coauthor.setCity(delegateTask.getExecution().getVariable("coauthorCity").toString());
+		//coauthor.setCountry(delegateTask.getExecution().getVariable("coauthorCountry").toString());	
 		coauthor.setEmail(delegateTask.getExecution().getVariable("coauthorEmail").toString());
+		coauthor.setLat(Float.parseFloat(delegateTask.getExecution().getVariable("lat").toString()));
+		coauthor.setLon(Float.parseFloat(delegateTask.getExecution().getVariable("lon").toString()));
+
 		
 		ArrayList<Coauthor> coauthors = (ArrayList<Coauthor>) delegateTask.getExecution().getVariable("coauthors");
 		

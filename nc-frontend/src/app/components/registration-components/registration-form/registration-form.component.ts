@@ -1,10 +1,16 @@
 import { Component, OnInit, ComponentRef } from '@angular/core';
 import { RegistrationData } from 'src/app/model/RegistrationData';
 import { ScientificAreaService } from 'src/app/services/ScientificAreaService';
+import { HttpClient } from '@angular/common/http';
 import * as $ from 'jquery';
 import { ScientificArea } from 'src/app/model/ScientificArea';
 import { RegistrationService } from 'src/app/services/RegistrationService';
 import { ProcessVariable } from 'src/app/model/ProcessVariable';
+
+
+
+
+
 
 @Component({
   selector: 'app-registration-form',
@@ -17,7 +23,7 @@ export class RegistrationFormComponent implements OnInit {
   scientificAreas : ScientificArea[];
   ref : ComponentRef<any>;
 
-  constructor(private scientificAreaService : ScientificAreaService, private registrationService : RegistrationService) {
+  constructor(private http : HttpClient, private scientificAreaService : ScientificAreaService, private registrationService : RegistrationService) {
     
     this.scientificAreaService.getScientificAreas().subscribe(
       data => {
@@ -81,16 +87,29 @@ export class RegistrationFormComponent implements OnInit {
       this.registrationData.errorMessage = "";
     }
 
-    this.registrationService.setProcessVariable(new ProcessVariable("registrationData", this.registrationData)).subscribe(
-      data => {
-        this.registrationService.completeRegistrationTask().subscribe(
-          data =>{
-            this.registrationService.setCurrentTaskId("none")
+     //preuzimanje koordinata lokacije
+     let address = $("#autocomplete").val().replace(' ','+');
+     this.http.get<any>("https://maps.googleapis.com/maps/api/geocode/json?address="+address+"&key=AIzaSyDnihJyw_34z5S1KZXp90pfTGAqhFszNJk").subscribe(
+       data => {
+         this.registrationData.lon = data.results[0].geometry.location.lng;
+         this.registrationData.lat = data.results[0].geometry.location.lat;
+         this.registrationService.setProcessVariable(new ProcessVariable("registrationData", this.registrationData)).subscribe(
+          data => {
+            this.registrationService.completeRegistrationTask().subscribe(
+              data =>{
+                this.registrationService.setCurrentTaskId("none")
+              }
+            )
+            console.log(this.registrationData);
           }
         )
-        console.log(this.registrationData);
-      }
-    )
+       },
+       eror =>{
+         
+       }
+     )
+
+    
   }
 
   showHideClick(){
@@ -102,5 +121,10 @@ export class RegistrationFormComponent implements OnInit {
       $("#password").attr("type","password")
     }
   }
+
+  
+ 
+
+
 
 }

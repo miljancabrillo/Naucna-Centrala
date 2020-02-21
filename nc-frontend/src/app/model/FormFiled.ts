@@ -11,4 +11,6 @@ export class FormField{
 	multiselectValues : string[];
 	reviews : Review[];
 	linkUrl : string;
+	lon : number;
+	lat : number;
 }

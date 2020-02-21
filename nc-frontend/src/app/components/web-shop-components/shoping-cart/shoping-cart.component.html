@@ -1,9 +1,9 @@
-<div class="pr-3"> 
-    <div class="row border">
+<div class="pr-3 mt-4"> 
+    <div class="row border-bottom">
         <div class="col-6 font-weight-bold">Article</div>
         <div class="col-2 font-weight-bold">Price</div>
     </div>
-    <div class="row border" *ngFor="let article of articles">
+    <div class="row border-bottom" *ngFor="let article of articles">
         <div class="col-6"><label class="pt-2">{{article.title}}</label></div>
         <div class="col-2"><label class="pt-2">{{article.price}}</label></div>
         <div class="col-4"><button class="btn btn-link" (click)="removeFromCart(article)">Remove</button></div>
@@ -13,9 +13,11 @@
         <div class="col-2"><label class="pt-2">{{total.toFixed(2)}}</label></div>
         <div class="col-4 pt-2"><button class="btn btn-secondary btn-sm" (click)="checkOut()">Check Out</button></div>
     </div>
-
+<!--
     <div class="row mt-2">
         <div class="col-4 pt-2"><button class="btn btn-secondary btn-sm" (click)="testReg()">Test registration</button></div>
         <div class="col-4 pt-2"><button class="btn btn-secondary btn-sm" (click)="testSub()">Test subscription</button></div>
     </div>
+-->
+    
 </div>

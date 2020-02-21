@@ -21,5 +21,7 @@ public class Coauthor implements Serializable{
 	private String city;
 	private String country;
 	private String email;
+	private float lon;
+	private float lat;
 	
 }

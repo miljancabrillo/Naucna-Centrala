@@ -8,6 +8,10 @@ export class AuthInterceptor implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const token = localStorage.getItem("USER_JWT_TOKEN");
 
+    if(req.url.indexOf('google')>=0){
+      return next.handle(req);
+    }
+
     if (!token) {
       return next.handle(req);
     }

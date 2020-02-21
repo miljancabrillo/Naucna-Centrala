@@ -38,15 +38,27 @@
             <a (click)="linkClick(field.value)" class="text-success">{{field.linkText}}</a>
         </div>
 
+        <div class="col-8" *ngIf="field.type == 'location'">
+            <input ngx-google-places-autocomplete [options]='options' (change)="addressChange(field)" id="autocomplete" class="form-control">
+        </div>
+
         <div class="col-12" class="pl-2" *ngIf="field.type == 'link' && showLink==true">
             <a (click)="linkClick2(field.linkUrl)" class="text-success" >{{field.linkText}}</a> 
         </div>
         
-        <div class="col-12" class="pl-2" *ngIf="field.type == 'filter'">
-            <div class="row">
-                <button class="btn btn-link" (click)="filterBySciArea()">Filter by selected scinetific area area</button>
-                <button class="btn btn-link" (click)="removeFilter()">Remove filter</button>
-            </div>
+        <div class="py-0" *ngIf="field.type == 'filter'">
+                <button class="btn btn-link" (click)="filterBySciArea()">Filter by scinetific area</button>
+                <button class="btn btn-link" (click)="removeFilter()">&#10060;</button>
+        </div>
+
+        <div class="pr-0" *ngIf="field.type == 'filterGeo'">
+            <button class="btn btn-link" (click)="filterGeo()">Filter by distance</button>
+            <button class="btn btn-link" (click)="removeFilter()">&#10060;</button>
+        </div>
+        
+        <div *ngIf="field.type == 'filterMore'">
+            <button class="btn btn-link" (click)="filterMore()">Filter with more like this functionality</button>
+            <button class="btn btn-link " (click)="removeFilter()">&#10060;</button>
         </div>
 
         <div class="col-12 mb-2 font-italic border-bottom" *ngIf="field.type == 'reviews'">{{field.label}}</div>

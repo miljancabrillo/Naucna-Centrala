@@ -210,7 +210,10 @@ public class FormsController {
 				runtimeService.setVariable(task.getProcessInstanceId(), "reviewsForAuthor", fieldDTO.getReviews());
 				fieldDTO.changeReviewsToEditors();
 				runtimeService.setVariable(task.getProcessInstanceId(), "reviews", fieldDTO.getReviews());				
-			}else if(!fieldDTO.getType().equals("downloadBtn") && !fieldDTO.getType().equals("link") && !fieldDTO.getType().equals("filter")) {
+			}else if(fieldDTO.getType().equals("location")) {
+				runtimeService.setVariable(task.getProcessInstanceId(), "lon", fieldDTO.getLon());
+				runtimeService.setVariable(task.getProcessInstanceId(), "lat", fieldDTO.getLat());	
+			} else if(!fieldDTO.getType().equals("downloadBtn") && !fieldDTO.getType().equals("link") && !fieldDTO.getType().equals("filter") && !fieldDTO.getType().equals("filterGeo") && !fieldDTO.getType().equals("filterMore")) {
 				runtimeService.setVariable(task.getProcessInstanceId(), fieldDTO.getId(), fieldDTO.getValue());
 			}
 		}

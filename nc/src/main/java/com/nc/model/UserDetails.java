@@ -47,6 +47,8 @@ public class UserDetails implements Serializable{
 	private List<ScientificArea> scientificAreas;
 	
 	private String password;
+	private float lon;
+	private float lat;
 		
 	public UserDetails(RegistrationDTO rdto) {
 		this.username = rdto.getUsername();
@@ -57,6 +59,8 @@ public class UserDetails implements Serializable{
 		this.title = rdto.getTitle();
 		this.email = rdto.getEmail();
 		this.scientificAreas = rdto.getScientificAreas();
+		this.lat = rdto.getLat();
+		this.lon = rdto.getLon();
 	}
 
 	@Override

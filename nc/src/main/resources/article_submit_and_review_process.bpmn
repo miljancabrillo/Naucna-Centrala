@@ -426,10 +426,10 @@
             </camunda:validation>
           </camunda:formField>
           <camunda:formField id="scientificArea" label="Scientific area" type="enum">
-            <camunda:value id="one" name="Biology" />
-            <camunda:value id="two" name="Mathematics" />
-            <camunda:value id="three" name="Geography" />
-            <camunda:value id="four" name="Physics" />
+            <camunda:value id="one" name="Medicina" />
+            <camunda:value id="two" name="Matematika" />
+            <camunda:value id="three" name="Politika" />
+            <camunda:value id="four" name="Fizika" />
           </camunda:formField>
           <camunda:formField id="file" label="PDF file" type="string">
             <camunda:properties>
@@ -490,6 +490,16 @@
           <camunda:formField id="filter" type="string">
             <camunda:properties>
               <camunda:property id="type" value="filter" />
+            </camunda:properties>
+          </camunda:formField>
+          <camunda:formField id="filterGeo" type="string">
+            <camunda:properties>
+              <camunda:property id="type" value="filterGeo" />
+            </camunda:properties>
+          </camunda:formField>
+          <camunda:formField id="filterMore" type="string">
+            <camunda:properties>
+              <camunda:property id="type" value="filterMore" />
             </camunda:properties>
           </camunda:formField>
         </camunda:formData>
@@ -605,15 +615,10 @@
               <camunda:constraint name="required" />
             </camunda:validation>
           </camunda:formField>
-          <camunda:formField id="coauthorCity" label="City" type="string">
-            <camunda:validation>
-              <camunda:constraint name="required" />
-            </camunda:validation>
-          </camunda:formField>
-          <camunda:formField id="coauthorCountry" label="Country" type="string">
-            <camunda:validation>
-              <camunda:constraint name="required" />
-            </camunda:validation>
+          <camunda:formField id="coauthorLocation" label="Location" type="string">
+            <camunda:properties>
+              <camunda:property id="type" value="location" />
+            </camunda:properties>
           </camunda:formField>
           <camunda:formField id="coauthorEmail" label="Email" type="string">
             <camunda:properties>

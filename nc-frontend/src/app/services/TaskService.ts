@@ -54,6 +54,14 @@ export class TaskService{
         return this.http.post<Form>('api/form/filterReviewers/' + this.currentTaskId, form);
     }
 
+    filterGeo(form : Form){
+        return this.http.post<Form>('api/filterGeo/' + this.currentTaskId, form);
+    }
+
+    filterMore(form : Form){
+        return this.http.post<Form>('api/filterMore/' + this.currentTaskId, form);
+    }
+
     completeTask(){
         return this.http.post('api/tp/completeTask/' + this.currentTaskId, null)
     }

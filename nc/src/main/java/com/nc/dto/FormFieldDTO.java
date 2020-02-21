@@ -29,6 +29,8 @@ public class FormFieldDTO {
 	private ArrayList<String> multiselectValues;
 	private ArrayList<Review> reviews;
 	private String linkUrl;
+	private float lon;
+	private float lat;
 	
 	
 	public FormFieldDTO(FormField field) {
