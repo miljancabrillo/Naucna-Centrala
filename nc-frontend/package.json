@@ -21,7 +21,7 @@
     "@angular/router": "~8.0.0",
     "@types/ol": "^4.6.5",
     "bootstrap": "^4.4.1",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "jwt-decode": "^2.2.0",
     "ngx-google-places-autocomplete": "^2.0.4",
     "rxjs": "~6.4.0",
